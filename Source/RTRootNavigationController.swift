@@ -182,7 +182,7 @@ open class RTContainerNavigationController: UINavigationController {
         
         self.interactivePopGestureRecognizer?.isEnabled = false
         
-        if let _  = self.rt.navigationController?.transferNavigationBarAttributes {
+        if self.rt.navigationController?.transferNavigationBarAttributes == true {
             self.navigationBar.isTranslucent   = (self.navigationController?.navigationBar.isTranslucent)!;
             self.navigationBar.tintColor       = self.navigationController?.navigationBar.tintColor;
             self.navigationBar.barTintColor    = self.navigationController?.navigationBar.barTintColor;

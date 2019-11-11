@@ -204,7 +204,9 @@ open class RTContainerNavigationController: UINavigationController {
         
         self.interactivePopGestureRecognizer?.isEnabled = false
         
-        if self.rt_navigationController?.transferNavigationBarAttributes == true {
+        let transferNavigationBarAttributes = self.rt_navigationController?.transferNavigationBarAttributes
+        
+        if self.rt_navigationController?.transferNavigationBarAttributes == true { 
             self.navigationBar.isTranslucent   = (self.navigationController?.navigationBar.isTranslucent)!;
             self.navigationBar.tintColor       = self.navigationController?.navigationBar.tintColor;
             self.navigationBar.barTintColor    = self.navigationController?.navigationBar.barTintColor;
@@ -560,6 +562,9 @@ open class RTRootNavigationController: UINavigationController {
         self.animationComplete?(false)
         self.animationComplete = complete
         self.pushViewController(viewController, animated: animated)
+        
+        self.animationComplete?(true)
+        self.animationComplete = nil
     }
     
     public func popViewController(animated: Bool, complete: @escaping (Bool)->Swift.Void) ->UIViewController? {
@@ -632,17 +637,18 @@ extension RTRootNavigationController: UINavigationControllerDelegate {
                 unwrapVC.rt_disableInteractivePop = false
             }
             
+            let function = Selector(("onBack"))
             if !self.useSystemBackBarButtonItem && !hasSetLeftItem {
                 if unwrapVC.responds(to: #selector(rt_customBackItemWithTarget(target:action:))) {
-                    if let customBackItem = unwrapVC.rt_customBackItemWithTarget(target: self, action: #selector(onBack(sender:))) {
+                    if let customBackItem = unwrapVC.rt_customBackItemWithTarget(target: self, action: function) {
                         unwrapVC.navigationItem.leftBarButtonItem = customBackItem
                     }else {
                         unwrapVC.navigationItem.leftBarButtonItem = UIBarButtonItem(title: NSLocalizedString("back", comment: ""), style: .plain, target: self,
-                        action: #selector(onBack(sender:)))
+                        action: function)
                     }
                 } else {
                     unwrapVC.navigationItem.leftBarButtonItem = UIBarButtonItem(title:NSLocalizedString("back", comment: ""), style: .plain, target: self,
-                    action: #selector(onBack(sender:)))
+                    action: function)
                 }
             }
         }

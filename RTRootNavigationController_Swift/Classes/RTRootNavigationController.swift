@@ -9,7 +9,7 @@ import UIKit
 
 public extension Array {
     
-    public func rt_any(operate: (Any) -> Bool) -> Bool {
+    func rt_any(operate: (Any) -> Bool) -> Bool {
         var result: Bool = false
         for item in self {
             if operate(item){
@@ -60,15 +60,15 @@ open class RTContainerController: UIViewController {
             self.containerNavigationController?.viewControllers = [controller]
         }
         
-        self.addChildViewController(self.containerNavigationController!)
-        self.containerNavigationController?.didMove(toParentViewController: self)
+        self.addChild(self.containerNavigationController!)
+        self.containerNavigationController?.didMove(toParent: self)
     }
     
     fileprivate init(contentController: UIViewController) {
         super.init(nibName:nil,bundle:nil)
         self.contentViewController = contentController
-        self.addChildViewController(self.contentViewController!)
-        self.contentViewController?.didMove(toParentViewController: self)
+        self.addChild(self.contentViewController!)
+        self.contentViewController?.didMove(toParent: self)
     }
     
     
@@ -123,13 +123,13 @@ open class RTContainerController: UIViewController {
     }
     
     @available(iOS 11.0, *)
-    open override func prefersHomeIndicatorAutoHidden() -> Bool {
-        return (self.contentViewController?.prefersHomeIndicatorAutoHidden())!
+    open override var prefersHomeIndicatorAutoHidden: Bool {
+        return (contentViewController?.prefersHomeIndicatorAutoHidden)!
     }
-    
+
     @available(iOS 11.0, *)
-    open override func childViewControllerForHomeIndicatorAutoHidden() -> UIViewController? {
-        return self.contentViewController
+    open override var childForHomeIndicatorAutoHidden: UIViewController? {
+        return contentViewController
     }
     
     
@@ -142,8 +142,8 @@ open class RTContainerController: UIViewController {
     }
     
     @available(iOS 9.0, *)
-    open override func allowedChildViewControllersForUnwinding(from source: UIStoryboardUnwindSegueSource) -> [UIViewController] {
-        return self.contentViewController?.allowedChildViewControllersForUnwinding(from:source) ?? []
+    open override func allowedChildrenForUnwinding(from source: UIStoryboardUnwindSegueSource) -> [UIViewController] {
+        return self.contentViewController?.allowedChildrenForUnwinding(from:source) ?? []
     }
     
     open override var hidesBottomBarWhenPushed: Bool {
@@ -271,11 +271,11 @@ open class RTContainerNavigationController: UINavigationController {
     }
     
     @available(iOS 9.0, *)
-    open override func allowedChildViewControllersForUnwinding(from source: UIStoryboardUnwindSegueSource) -> [UIViewController] {
+    open override func allowedChildrenForUnwinding(from source: UIStoryboardUnwindSegueSource) -> [UIViewController] {
         if(self.navigationController != nil) {
-            return self.navigationController?.allowedChildViewControllersForUnwinding(from:source) ?? []
+            return self.navigationController?.allowedChildrenForUnwinding(from:source) ?? []
         }
-        return super.allowedChildViewControllersForUnwinding(from:source)
+        return super.allowedChildrenForUnwinding(from:source)
     }
     
     open override func pushViewController(_ viewController: UIViewController, animated: Bool) {
@@ -404,7 +404,7 @@ open class RTRootNavigationController: UINavigationController {
             var controller: UIViewController? = super.forUnwindSegueAction(action, from: fromViewController, withSender: sender)
             
             if controller == nil {
-                let index = self.viewControllers.index(of: fromViewController)
+                let index = self.viewControllers.firstIndex(of: fromViewController)
                 if index != NSNotFound {
                     for i in (index! - 1)...0  {
                         controller = self.viewControllers[i].forUnwindSegueAction(action, from: fromViewController, withSender: sender)
@@ -420,14 +420,14 @@ open class RTRootNavigationController: UINavigationController {
     }
     
    @available(iOS 9.0, *)
-    open override func allowedChildViewControllersForUnwinding(from source: UIStoryboardUnwindSegueSource) -> [UIViewController] {
-        var controller: [UIViewController]? = super.allowedChildViewControllersForUnwinding(from: source)
+    open override func allowedChildrenForUnwinding(from source: UIStoryboardUnwindSegueSource) -> [UIViewController] {
+    var controller: [UIViewController]? = super.allowedChildrenForUnwinding(from: source)
         
         if controller?.count == 0 {
-            let index = self.viewControllers.index(of: source.source)
+            let index = self.viewControllers.firstIndex(of: source.source)
             if index != NSNotFound {
                 for i in (index! - 1)...0  {
-                    controller = self.viewControllers[i].allowedChildViewControllersForUnwinding(from: source)
+                    controller = self.viewControllers[i].allowedChildrenForUnwinding(from: source)
                     
                     if controller?.count != 0 {break}
                 }
@@ -676,7 +676,7 @@ extension RTRootNavigationController: UINavigationControllerDelegate,UIGestureRe
         return self.rt_delegate?.navigationController?(navigationController,interactionControllerFor:animationController)
     }
     
-    public func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    public func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return self.rt_delegate?.navigationController?(navigationController,animationControllerFor:operation,from:fromVC,to:toVC)
     }
     

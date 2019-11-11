@@ -215,10 +215,12 @@
 				TargetAttributes = {
 					607FACCF1AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = B6Q5RKSB5N;
 						LastSwiftMigration = 0900;
 					};
 					607FACE41AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = B6Q5RKSB5N;
 						LastSwiftMigration = 0900;
 						TestTargetID = 607FACCF1AFB9204008FA782;
 					};
@@ -229,6 +231,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -517,13 +520,14 @@
 			baseConfigurationReference = D22130FE49186232E9ED5660 /* Pods-RTRootNavigationController_Swift_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = B6Q5RKSB5N;
 				INFOPLIST_FILE = RTRootNavigationController_Swift/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -532,13 +536,14 @@
 			baseConfigurationReference = E8AF776E7AE712B5FB597EA9 /* Pods-RTRootNavigationController_Swift_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = B6Q5RKSB5N;
 				INFOPLIST_FILE = RTRootNavigationController_Swift/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
@@ -546,6 +551,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 11197873DA5936B2636091CC /* Pods-RTRootNavigationController_Swift_Tests.debug.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = B6Q5RKSB5N;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -567,6 +573,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = FC6374C1EB74193D4BECACE8 /* Pods-RTRootNavigationController_Swift_Tests.release.xcconfig */;
 			buildSettings = {
+				DEVELOPMENT_TEAM = B6Q5RKSB5N;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",

@@ -13,6 +13,7 @@ class PushAndRemoveController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.gray
+        title = "PushAndRemoveController"
         let button = UIButton(type: .custom)
         button.setTitle("Push and this vc will remove", for: .normal)
         button.sizeToFit()

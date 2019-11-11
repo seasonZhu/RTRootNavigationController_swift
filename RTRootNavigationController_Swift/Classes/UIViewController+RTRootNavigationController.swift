@@ -7,8 +7,6 @@
 
 import UIKit
 
-private var disableInteractivePopKey: String = "disableInteractivePop"
-
 @objc public protocol RTNavigationItemCustomizable {
     
    @objc optional func rt_customBackItemWithTarget(target: Any, action: Selector) ->UIBarButtonItem?
@@ -18,15 +16,18 @@ private var disableInteractivePopKey: String = "disableInteractivePop"
 // TODO:  handel access control problems
 
 extension UIViewController: RTNavigationItemCustomizable{
-  
-     public var rt_disableInteractivePop: Bool {
+    private struct RuntimeKey {
+        static var disableInteractivePopKey = "disableInteractivePop"
+    }
+    
+    public var rt_disableInteractivePop: Bool {
         
         set{
-            objc_setAssociatedObject(self, &disableInteractivePopKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            objc_setAssociatedObject(self, &RuntimeKey.disableInteractivePopKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
         
         get{
-            return objc_getAssociatedObject(self, &disableInteractivePopKey) as? Bool ?? false
+            return objc_getAssociatedObject(self, &RuntimeKey.disableInteractivePopKey) as? Bool ?? false
         }
 
     }

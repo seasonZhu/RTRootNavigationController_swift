@@ -13,6 +13,7 @@ class DisableInteractivePopController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "DisableInteractivePopController"
+        rt_disableInteractivePop = true
         view.backgroundColor = UIColor.white
         navigationController?.navigationBar.barTintColor = UIColor.blue
         navigationController?.navigationBar.tintColor = UIColor.white

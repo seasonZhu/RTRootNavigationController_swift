@@ -14,6 +14,10 @@
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
+		61BED91F237938E400929B10 /* NormalController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BED91B237938E300929B10 /* NormalController.swift */; };
+		61BED920237938E400929B10 /* PushAndRemoveController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BED91C237938E400929B10 /* PushAndRemoveController.swift */; };
+		61BED921237938E400929B10 /* DisableInteractivePopController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BED91D237938E400929B10 /* DisableInteractivePopController.swift */; };
+		61BED922237938E400929B10 /* NavigationbarHiddenController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BED91E237938E400929B10 /* NavigationbarHiddenController.swift */; };
 		91DE12327E834C7A43622FC6 /* Pods_RTRootNavigationController_Swift_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5145AE4C1AA0C722E1BFB99E /* Pods_RTRootNavigationController_Swift_Example.framework */; };
 /* End PBXBuildFile section */
 
@@ -41,6 +45,10 @@
 		607FACE51AFB9204008FA782 /* RTRootNavigationController_Swift_Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RTRootNavigationController_Swift_Tests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		607FACEA1AFB9204008FA782 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
+		61BED91B237938E300929B10 /* NormalController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NormalController.swift; sourceTree = "<group>"; };
+		61BED91C237938E400929B10 /* PushAndRemoveController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushAndRemoveController.swift; sourceTree = "<group>"; };
+		61BED91D237938E400929B10 /* DisableInteractivePopController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisableInteractivePopController.swift; sourceTree = "<group>"; };
+		61BED91E237938E400929B10 /* NavigationbarHiddenController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationbarHiddenController.swift; sourceTree = "<group>"; };
 		67DBBD7DE00DC5A83F22E4E9 /* RTRootNavigationController_Swift.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = RTRootNavigationController_Swift.podspec; path = ../RTRootNavigationController_Swift.podspec; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		855EEAC466A3077D316B8DE7 /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		A1853BC70D485B1228FF9AD6 /* Pods_RTRootNavigationController_Swift_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RTRootNavigationController_Swift_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -95,6 +103,10 @@
 			children = (
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				607FACD71AFB9204008FA782 /* ViewController.swift */,
+				61BED91D237938E400929B10 /* DisableInteractivePopController.swift */,
+				61BED91E237938E400929B10 /* NavigationbarHiddenController.swift */,
+				61BED91B237938E300929B10 /* NormalController.swift */,
+				61BED91C237938E400929B10 /* PushAndRemoveController.swift */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
@@ -374,6 +386,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
+				61BED920237938E400929B10 /* PushAndRemoveController.swift in Sources */,
+				61BED91F237938E400929B10 /* NormalController.swift in Sources */,
+				61BED922237938E400929B10 /* NavigationbarHiddenController.swift in Sources */,
+				61BED921237938E400929B10 /* DisableInteractivePopController.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

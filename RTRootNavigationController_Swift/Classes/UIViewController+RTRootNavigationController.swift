@@ -26,7 +26,7 @@ extension UIViewController: RTNavigationItemCustomizable{
         }
         
         get{
-            return objc_getAssociatedObject(self, &disableInteractivePopKey) as! Bool
+            return objc_getAssociatedObject(self, &disableInteractivePopKey) as? Bool ?? false
         }
 
     }

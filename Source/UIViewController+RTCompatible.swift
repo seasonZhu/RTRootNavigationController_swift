@@ -40,7 +40,7 @@ extension RTCategory where Base: UIViewController {
     }
     
     public var navigationController: RTRootNavigationController? {
-        var vc: UIViewController? = self.base
+        var vc: UIViewController? = base
         while vc != nil && !(vc is RTRootNavigationController) {
             vc = vc?.navigationController
         }

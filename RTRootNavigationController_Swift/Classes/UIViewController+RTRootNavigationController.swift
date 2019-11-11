@@ -7,15 +7,17 @@
 
 import UIKit
 
-@objc public protocol RTNavigationItemCustomizable {
+@objc protocol RTNavigationComponentCustomizable {
     
-   @objc optional func rt_customBackItemWithTarget(target: Any, action: Selector) ->UIBarButtonItem?
+    func rt_customBackItemWithTarget(target: Any, action: Selector) -> UIBarButtonItem?
+    
+    func rt_navigationBarClass() -> AnyClass?
     
 }
 
 // TODO:  handel access control problems
 
-extension UIViewController: RTNavigationItemCustomizable{
+extension UIViewController {
     private struct RuntimeKey {
         static var disableInteractivePopKey = "disableInteractivePop"
     }
@@ -39,10 +41,14 @@ extension UIViewController: RTNavigationItemCustomizable{
         }
         return vc as? RTRootNavigationController
     }
-    
-    open func rt_navigationBarClass() -> Swift.AnyClass? {
+}
+
+extension UIViewController: RTNavigationComponentCustomizable {
+    open func rt_customBackItemWithTarget(target: Any, action: Selector) -> UIBarButtonItem? {
         return nil
     }
     
-    open func rt_customBackItemWithTarget(target: Any, action: Selector) -> UIBarButtonItem? {return nil}
+    open func rt_navigationBarClass() -> AnyClass? {
+        return nil
+    }
 }

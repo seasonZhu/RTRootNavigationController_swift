@@ -18,7 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     internal func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         let vc = ViewController()
         let navi = RTRootNavigationController(rootViewController: vc)
-        //navi.useSystemBackBarButtonItem = false
+        navi.useSystemBackBarButtonItem = false
         window?.rootViewController = navi
         window?.makeKeyAndVisible()
         return true

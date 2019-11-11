@@ -549,7 +549,7 @@ open class RTRootNavigationController: UINavigationController {
             }
         }
         
-        if let ctp = controllerToRemove, let index = viewControllers.index(of: ctp){
+        if let ctp = controllerToRemove, let index = viewControllers.firstIndex(of: ctp){
             viewControllers.remove(at: index)
             super.setViewControllers(viewControllers, animated: flag)
         }
@@ -605,10 +605,6 @@ open class RTRootNavigationController: UINavigationController {
 
 extension RTRootNavigationController: UINavigationControllerDelegate,UIGestureRecognizerDelegate{
     
-    @objc fileprivate func onBack(sender: Any) {
-        _ = self.popViewController(animated: true)
-    }
-    
     fileprivate func commonInit() {
         
     }
@@ -630,16 +626,20 @@ extension RTRootNavigationController: UINavigationControllerDelegate,UIGestureRe
             }
             
             if !self.useSystemBackBarButtonItem && !hasSetLeftItem {
-                
-                if unwrapVC.responds(to: #selector(unwrapVC.rt_customBackItemWithTarget(target:action:))) {
-                    unwrapVC.navigationItem.leftBarButtonItem = unwrapVC.rt_customBackItemWithTarget(target: self, action: Selector(("onBack:")))
+                if let customBackItem = unwrapVC.rt_customBackItemWithTarget(target: self, action: #selector(onBack(sender:))) {
+                    unwrapVC.navigationItem.leftBarButtonItem = customBackItem
                 }else {
                     unwrapVC.navigationItem.leftBarButtonItem = UIBarButtonItem(title:NSLocalizedString("Back", comment: ""),style:.plain,target:self,
-                                                                                action:Selector(("onBack:")))
+                    action:#selector(onBack(sender:)))
                 }
             }
         }
         self.rt_delegate?.navigationController?(navigationController, willShow: viewController, animated: animated)
+    }
+    
+    @objc
+    func onBack(sender: UIBarButtonItem) {
+        _ = self.popViewController(animated: true)
     }
     
     public func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {

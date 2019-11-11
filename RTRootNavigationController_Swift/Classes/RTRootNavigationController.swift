@@ -7,12 +7,13 @@
 
 import UIKit
 
+/// 数组扩展
 public extension Array {
     
-    func rt_any(operate: (Any) -> Bool) -> Bool {
-        var result: Bool = false
+    func operation(_ operation: (Element) -> Bool) -> Bool {
+        var result = false
         for item in self {
-            if operate(item){
+            if operation(item){
                 result = true
                 break
             }
@@ -203,7 +204,7 @@ open class RTContainerNavigationController: UINavigationController {
         
         self.interactivePopGestureRecognizer?.isEnabled = false
         
-        if let _  = self.rt_navigationController?.transferNavigationBarAttributes {
+        if self.rt_navigationController?.transferNavigationBarAttributes == true {
             self.navigationBar.isTranslucent   = (self.navigationController?.navigationBar.isTranslucent)!;
             self.navigationBar.tintColor       = self.navigationController?.navigationBar.tintColor;
             self.navigationBar.barTintColor    = self.navigationController?.navigationBar.barTintColor;
@@ -230,8 +231,8 @@ open class RTContainerNavigationController: UINavigationController {
             if navigationController?.tabBarController != nil {
                 return tabbarController!
             }else{
-               let isHidden = navigationController?.viewControllers.rt_any{ (item) -> Bool in
-                    return (item as! UIViewController).hidesBottomBarWhenPushed
+                let isHidden = navigationController?.viewControllers.operation { (item) -> Bool in
+                    return item.hidesBottomBarWhenPushed
                 }
                 return (!(tabbarController?.tabBar.isTranslucent)! || isHidden ?? false) ? nil : tabbarController!
             }
@@ -603,13 +604,19 @@ open class RTRootNavigationController: UINavigationController {
     }
 }
 
-extension RTRootNavigationController: UINavigationControllerDelegate,UIGestureRecognizerDelegate{
+extension RTRootNavigationController {
+    @objc
+    func onBack(sender: UIBarButtonItem) {
+        _ = self.popViewController(animated: true)
+    }
     
     fileprivate func commonInit() {
         
     }
-    
-    // MARK: - UINavigationControllerDelegate
+}
+
+// MARK: - UINavigationControllerDelegate
+extension RTRootNavigationController: UINavigationControllerDelegate {
     
     public func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
         
@@ -626,20 +633,20 @@ extension RTRootNavigationController: UINavigationControllerDelegate,UIGestureRe
             }
             
             if !self.useSystemBackBarButtonItem && !hasSetLeftItem {
-                if let customBackItem = unwrapVC.rt_customBackItemWithTarget(target: self, action: #selector(onBack(sender:))) {
-                    unwrapVC.navigationItem.leftBarButtonItem = customBackItem
-                }else {
-                    unwrapVC.navigationItem.leftBarButtonItem = UIBarButtonItem(title:NSLocalizedString("Back", comment: ""),style:.plain,target:self,
-                    action:#selector(onBack(sender:)))
+                if unwrapVC.responds(to: #selector(rt_customBackItemWithTarget(target:action:))) {
+                    if let customBackItem = unwrapVC.rt_customBackItemWithTarget(target: self, action: #selector(onBack(sender:))) {
+                        unwrapVC.navigationItem.leftBarButtonItem = customBackItem
+                    }else {
+                        unwrapVC.navigationItem.leftBarButtonItem = UIBarButtonItem(title: NSLocalizedString("back", comment: ""), style: .plain, target: self,
+                        action: #selector(onBack(sender:)))
+                    }
+                } else {
+                    unwrapVC.navigationItem.leftBarButtonItem = UIBarButtonItem(title:NSLocalizedString("back", comment: ""), style: .plain, target: self,
+                    action: #selector(onBack(sender:)))
                 }
             }
         }
         self.rt_delegate?.navigationController?(navigationController, willShow: viewController, animated: animated)
-    }
-    
-    @objc
-    func onBack(sender: UIBarButtonItem) {
-        _ = self.popViewController(animated: true)
     }
     
     public func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
@@ -679,17 +686,17 @@ extension RTRootNavigationController: UINavigationControllerDelegate,UIGestureRe
     public func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return self.rt_delegate?.navigationController?(navigationController,animationControllerFor:operation,from:fromVC,to:toVC)
     }
-    
-    // MARK: - UIGestureRecognizerDelegate
-    
+}
+
+// MARK: - UIGestureRecognizerDelegate
+extension RTRootNavigationController: UIGestureRecognizerDelegate {
     public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
     
     public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldBeRequiredToFailBy otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return gestureRecognizer == self.interactivePopGestureRecognizer
+        return gestureRecognizer == interactivePopGestureRecognizer
     }
-    
 }
 
 extension UIViewController {

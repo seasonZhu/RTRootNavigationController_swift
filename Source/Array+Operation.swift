@@ -7,10 +7,11 @@
 
 import Foundation
 
+/// 数组扩展
 public extension Array {
     
     func operation(_ operation: (Element) -> Bool) -> Bool {
-        var result: Bool = false
+        var result = false
         for item in self {
             if operation(item){
                 result = true

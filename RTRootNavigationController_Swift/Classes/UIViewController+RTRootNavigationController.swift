@@ -22,7 +22,7 @@ extension UIViewController: RTNavigationItemCustomizable{
      public var rt_disableInteractivePop: Bool {
         
         set{
-            objc_setAssociatedObject(self, &disableInteractivePopKey, newValue, .OBJC_ASSOCIATION_ASSIGN)
+            objc_setAssociatedObject(self, &disableInteractivePopKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
         }
         
         get{

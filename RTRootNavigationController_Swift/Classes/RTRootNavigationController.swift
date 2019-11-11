@@ -519,25 +519,25 @@ open class RTRootNavigationController: UINavigationController {
 
     
     // MARK: Public
-    var transferNavigationBarAttributes: Bool = false
-    var useSystemBackBarButtonItem: Bool = false
+    public var transferNavigationBarAttributes: Bool = false
+    public var useSystemBackBarButtonItem: Bool = false
     
-    var rt_topViewController: UIViewController? {
+    public var rt_topViewController: UIViewController? {
         return RTSafeUnwrapViewController(wrapVC: super.topViewController)
         
     }
     
-    var rt_visibleViewController: UIViewController? {
+    public var rt_visibleViewController: UIViewController? {
         return RTSafeUnwrapViewController(wrapVC: super.visibleViewController)
     }
     
-    var rt_viewControllers: [UIViewController]? {
+    public var rt_viewControllers: [UIViewController]? {
         return super.viewControllers.map{
             return RTSafeUnwrapViewController(wrapVC: $0)!
         }
     }
     
-    func removeViewController(controller: UIViewController, animated flag: Bool = false) {
+    public func removeViewController(controller: UIViewController, animated flag: Bool = false) {
         
         var viewControllers: [UIViewController] = super.viewControllers
         var controllerToRemove :UIViewController?
@@ -555,13 +555,13 @@ open class RTRootNavigationController: UINavigationController {
         }
     }
     
-    func pushViewController(viewController: UIViewController, animated: Bool,complete: @escaping (Bool)->Swift.Void){
+    public func pushViewController(viewController: UIViewController, animated: Bool,complete: @escaping (Bool)->Swift.Void){
         self.animationComplete?(false)
         self.animationComplete = complete
         self.pushViewController(viewController, animated: animated)
     }
     
-    func popViewController(animated: Bool, complete: @escaping (Bool)->Swift.Void) ->UIViewController? {
+    public func popViewController(animated: Bool, complete: @escaping (Bool)->Swift.Void) ->UIViewController? {
         self.animationComplete?(false)
         self.animationComplete = complete
         
@@ -573,7 +573,7 @@ open class RTRootNavigationController: UINavigationController {
         return vc
     }
     
-    func popToViewController(viewController: UIViewController,animated: Bool,complete: @escaping (Bool)->Swift.Void) ->[UIViewController]?{
+    public func popToViewController(viewController: UIViewController,animated: Bool,complete: @escaping (Bool)->Swift.Void) ->[UIViewController]?{
         
         self.animationComplete?(false)
         self.animationComplete = complete
@@ -588,7 +588,7 @@ open class RTRootNavigationController: UINavigationController {
     }
     
     
-    func popToRootViewController(animated: Bool,complete: @escaping (Bool)->Swift.Void) ->[UIViewController]? {
+    public func popToRootViewController(animated: Bool,complete: @escaping (Bool)->Swift.Void) ->[UIViewController]? {
         
         self.animationComplete?(false)
         self.animationComplete = complete

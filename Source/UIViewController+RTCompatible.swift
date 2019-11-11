@@ -19,7 +19,10 @@ extension UIViewController {
         }
         
         get{
-            return objc_getAssociatedObject(self, &RuntimeKey.disableInteractivePopKey) as? Bool ?? false
+            let boolean = objc_getAssociatedObject(self, &RuntimeKey.disableInteractivePopKey) as? Bool ?? false
+            let info = String(describing: type(of: self)) + " disableInteractivePop:\(boolean)"
+            print(info)
+            return boolean
         }
 
     }

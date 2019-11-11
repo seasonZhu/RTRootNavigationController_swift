@@ -289,11 +289,13 @@ extension RTRootNavigationController: UINavigationControllerDelegate {
         if !isRootVC {
             let hasSetLeftItem = unwrapVC.navigationItem.leftBarButtonItem != nil
             
+            /*
             if hasSetLeftItem && !unwrapVC.rt.hasSetInteractivePop {
                 unwrapVC.rt.disableInteractivePop = true
             }else if !unwrapVC.rt.hasSetInteractivePop {
                 unwrapVC.rt.disableInteractivePop = false
             }
+            */
             
             if !self.useSystemBackBarButtonItem && !hasSetLeftItem {
                 if let customBackItem = unwrapVC.customBackItemWithTarget(target: self, action: #selector(onBack(sender:))) {
@@ -357,11 +359,17 @@ extension RTRootNavigationController: UIGestureRecognizerDelegate {
     }
 }
 
-extension RTCategory where Base: UIViewController {
-    fileprivate var hasSetInteractivePop: Bool {
-        return disableInteractivePop
-    }
-}
+//extension RTCategory where Base: UIViewController {
+//    fileprivate var hasSetInteractivePop: Bool {
+//        return !base.disableInteractivePop
+//    }
+//}
+
+//extension UIViewController {
+//    fileprivate var hasSetInteractivePop: Bool {
+//        return !disableInteractivePop
+//    }
+//}
 
 extension RTCategory where Base: RTRootNavigationController {
     fileprivate var delegate: UINavigationControllerDelegate? {

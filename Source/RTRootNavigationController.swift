@@ -142,7 +142,6 @@ public class RTRootNavigationController: UINavigationController {
         }
         return nil
     }
-    
     /*
     public override func setViewControllers(_ viewControllers: [UIViewController], animated: Bool) {
         

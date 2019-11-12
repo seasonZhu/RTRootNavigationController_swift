@@ -134,7 +134,7 @@ class RTContainerNavigationController: UINavigationController {
     
     override func setNavigationBarHidden(_ hidden: Bool, animated: Bool) {
         super .setNavigationBarHidden(hidden, animated: animated)
-        visibleViewController?.rt.disableInteractivePop = hidden
+        visibleViewController?.rt.disableInteractivePop = !hidden
     }
     
     override func pushViewController(_ viewController: UIViewController, animated: Bool) {

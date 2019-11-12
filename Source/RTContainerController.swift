@@ -7,15 +7,15 @@
 
 import UIKit
 
-open class RTContainerController: UIViewController {
+public class RTContainerController: UIViewController {
     
-    open private(set) var contentViewController: UIViewController?
+    public private(set) var contentViewController: UIViewController?
     
-    public required init?(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
-    fileprivate var containerNavigationController: UINavigationController?
+    var containerNavigationController: UINavigationController?
     
     init(controller: UIViewController, navigationBarClass: AnyClass?, toolbarClass: AnyClass?, withPlaceholder: Bool, backItem: UIBarButtonItem?, backTitle: String?) {
         
@@ -44,7 +44,7 @@ open class RTContainerController: UIViewController {
         contentViewController?.didMove(toParent: self)
     }
     
-    open override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         
         if let containerNav = self.containerNavigationController {
@@ -58,49 +58,49 @@ open class RTContainerController: UIViewController {
         }
     }
     
-    open override var shouldAutorotate: Bool {
+    public override var shouldAutorotate: Bool {
         return (contentViewController?.shouldAutorotate)!
     }
     
-    open override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+    public override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return (contentViewController?.supportedInterfaceOrientations)!
     }
     
-    open override var preferredInterfaceOrientationForPresentation: UIInterfaceOrientation {
+    public override var preferredInterfaceOrientationForPresentation: UIInterfaceOrientation {
         return (contentViewController?.preferredInterfaceOrientationForPresentation)!
     }
     
-    open override func becomeFirstResponder() -> Bool {
+    public override func becomeFirstResponder() -> Bool {
         return (contentViewController?.becomeFirstResponder())!
     }
     
-    open override var canBecomeFirstResponder: Bool {
+    public override var canBecomeFirstResponder: Bool {
         return (contentViewController?.canBecomeFirstResponder)!
     }
     
-    open override var preferredStatusBarStyle: UIStatusBarStyle {
+    public override var preferredStatusBarStyle: UIStatusBarStyle {
         return (contentViewController?.preferredStatusBarStyle)!
     }
     
-    open override var prefersStatusBarHidden: Bool {
+    public override var prefersStatusBarHidden: Bool {
         return (contentViewController?.prefersStatusBarHidden)!
     }
     
-    open override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
+    public override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
         return (contentViewController?.preferredStatusBarUpdateAnimation)!
     }
     
     @available(iOS 11.0, *)
-    open override var prefersHomeIndicatorAutoHidden: Bool {
+    public override var prefersHomeIndicatorAutoHidden: Bool {
         return (contentViewController?.prefersHomeIndicatorAutoHidden)!
     }
     
     @available(iOS 11.0, *)
-    open override var childForHomeIndicatorAutoHidden: UIViewController? {
+    public override var childForHomeIndicatorAutoHidden: UIViewController? {
         return contentViewController
     }
 
-    open override func forUnwindSegueAction(_ action: Selector, from fromViewController: UIViewController, withSender sender: Any?) -> UIViewController? {
+    public override func forUnwindSegueAction(_ action: Selector, from fromViewController: UIViewController, withSender sender: Any?) -> UIViewController? {
         guard #available(iOS 9.0, *) else{
             let viewController = contentViewController?.forUnwindSegueAction(_:action,from:fromViewController,withSender:sender)
             return viewController
@@ -109,11 +109,11 @@ open class RTContainerController: UIViewController {
     }
     
     @available(iOS 9.0, *)
-    open override func allowedChildrenForUnwinding(from source: UIStoryboardUnwindSegueSource) -> [UIViewController] {
+    public override func allowedChildrenForUnwinding(from source: UIStoryboardUnwindSegueSource) -> [UIViewController] {
         return contentViewController?.allowedChildrenForUnwinding(from:source) ?? []
     }
     
-    open override var hidesBottomBarWhenPushed: Bool {
+    public override var hidesBottomBarWhenPushed: Bool {
         set {
             super.hidesBottomBarWhenPushed = newValue
         }
@@ -122,7 +122,7 @@ open class RTContainerController: UIViewController {
         }
     }
     
-    open override var title: String? {
+    public override var title: String? {
         set{
             super.title = newValue
         }
@@ -131,7 +131,7 @@ open class RTContainerController: UIViewController {
         }
     }
     
-    open override var tabBarItem: UITabBarItem! {
+    public override var tabBarItem: UITabBarItem! {
         set{
             super.tabBarItem = newValue
         }

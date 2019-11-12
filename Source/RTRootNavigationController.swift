@@ -8,7 +8,7 @@
 import UIKit
 
 
-open class RTRootNavigationController: UINavigationController {
+public class RTRootNavigationController: UINavigationController {
     
     // MARK:- fileprivate
     fileprivate var animationComplete: ((Bool) -> Swift.Void)?
@@ -16,7 +16,7 @@ open class RTRootNavigationController: UINavigationController {
     fileprivate var rt_Delegate: UINavigationControllerDelegate?
     
     // MARK:- override
-    open override var delegate: UINavigationControllerDelegate? {
+    public override var delegate: UINavigationControllerDelegate? {
         set {
             self.rt.delegate = newValue
         }
@@ -25,7 +25,7 @@ open class RTRootNavigationController: UINavigationController {
         }
     }
     
-    open override func awakeFromNib() {
+    public override func awakeFromNib() {
         super.awakeFromNib()
         self.viewControllers = super.viewControllers
     }
@@ -49,12 +49,7 @@ open class RTRootNavigationController: UINavigationController {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
     
-    init(rootViewControllerNoWrapping: UIViewController) {
-        super.init(rootViewController: RTContainerController(contentController: rootViewControllerNoWrapping))
-        commonInit()
-    }
-    
-    open override func viewDidLoad() {
+    public override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
         
@@ -62,7 +57,7 @@ open class RTRootNavigationController: UINavigationController {
         super.setNavigationBarHidden(true, animated: false)
     }
     
-    open override func forUnwindSegueAction(_ action: Selector, from fromViewController: UIViewController, withSender sender: Any?) -> UIViewController? {
+    public override func forUnwindSegueAction(_ action: Selector, from fromViewController: UIViewController, withSender sender: Any?) -> UIViewController? {
         guard #available(iOS 9.0, *) else{
             var controller: UIViewController? = super.forUnwindSegueAction(action, from: fromViewController, withSender: sender)
             
@@ -82,7 +77,7 @@ open class RTRootNavigationController: UINavigationController {
     }
     
     @available(iOS 9.0, *)
-    open override func allowedChildrenForUnwinding(from source: UIStoryboardUnwindSegueSource) -> [UIViewController] {
+    public override func allowedChildrenForUnwinding(from source: UIStoryboardUnwindSegueSource) -> [UIViewController] {
         var controller: [UIViewController]? = super.allowedChildrenForUnwinding(from: source)
         
         if controller?.count == 0 {
@@ -98,12 +93,12 @@ open class RTRootNavigationController: UINavigationController {
         return controller ?? []
     }
     
-    open override func setNavigationBarHidden(_ hidden: Bool, animated: Bool) {
+    public override func setNavigationBarHidden(_ hidden: Bool, animated: Bool) {
         super.setNavigationBarHidden(hidden, animated: animated)
         visibleViewController?.rt.disableInteractivePop = hidden
     }
     
-    open override func pushViewController(_ viewController: UIViewController, animated: Bool) {
+    public override func pushViewController(_ viewController: UIViewController, animated: Bool) {
         if self.viewControllers.count > 0 {
             let currentLast = RTSafeUnwrapViewController(wrapVC: viewControllers.last!)!
             let safeWrapVC = RTSafeWrapViewController(controller: viewController,
@@ -121,17 +116,17 @@ open class RTRootNavigationController: UINavigationController {
         }
     }
     
-    open override func popViewController(animated: Bool) -> UIViewController? {
+    public override func popViewController(animated: Bool) -> UIViewController? {
         return RTSafeUnwrapViewController(wrapVC: super.popViewController(animated: animated))
     }
     
-    open override func popToRootViewController(animated: Bool) -> [UIViewController]? {
+    public override func popToRootViewController(animated: Bool) -> [UIViewController]? {
         return super.popToRootViewController(animated: animated)?.compactMap {
             return RTSafeUnwrapViewController(wrapVC: $0)!
         }
     }
     
-    open override func popToViewController(_ viewController: UIViewController, animated: Bool) -> [UIViewController]? {
+    public override func popToViewController(_ viewController: UIViewController, animated: Bool) -> [UIViewController]? {
         
         var controllerToPop :UIViewController?
         
@@ -149,7 +144,7 @@ open class RTRootNavigationController: UINavigationController {
     }
     
     /*
-    open override func setViewControllers(_ viewControllers: [UIViewController], animated: Bool) {
+    public override func setViewControllers(_ viewControllers: [UIViewController], animated: Bool) {
         
         super.setViewControllers(viewControllers.enumerated().map { (index, item) in
             if useSystemBackBarButtonItem && index > 0 {
@@ -167,34 +162,34 @@ open class RTRootNavigationController: UINavigationController {
         }, animated: animated)
     }
     */
-    open override var shouldAutorotate: Bool {
+    public override var shouldAutorotate: Bool {
         return (topViewController?.shouldAutorotate)!
     }
     
-    open override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+    public override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         return (topViewController?.supportedInterfaceOrientations)!
     }
     
-    open override var preferredInterfaceOrientationForPresentation: UIInterfaceOrientation {
+    public override var preferredInterfaceOrientationForPresentation: UIInterfaceOrientation {
         return (topViewController?.preferredInterfaceOrientationForPresentation)!
     }
     
-    open override func responds(to aSelector: Selector!) -> Bool {
+    public override func responds(to aSelector: Selector!) -> Bool {
         if super.responds(to: aSelector){
             return true
         }
         return rt.delegate?.responds(to:aSelector) ?? false
     }
     
-    open override func forwardingTarget(for aSelector: Selector!) -> Any? {
+    public override func forwardingTarget(for aSelector: Selector!) -> Any? {
         return rt.delegate
     }
 
     
     // MARK: Public
-    public var transferNavigationBarAttributes: Bool = false
+    public @IBInspectable var transferNavigationBarAttributes: Bool = false
     
-    public var useSystemBackBarButtonItem: Bool = false
+    public @IBInspectable var useSystemBackBarButtonItem: Bool = false
     
     public func removeViewController(controller: UIViewController, animated flag: Bool = false) {
         
@@ -280,12 +275,13 @@ extension RTRootNavigationController {
         }
     }
     
-    @objc func onBack(sender: Any) {
-        _ = self.popViewController(animated: true)
-    }
-    
     func commonInit() {
         
+    }
+    
+    @objc
+    func onBack(sender: Any) {
+        _ = self.popViewController(animated: true)
     }
 }
 
@@ -397,16 +393,3 @@ extension RTCategory where Base: RTRootNavigationController {
         return base.rt_viewControllers
     }
 }
-
-//extension RTCategory where Base: UIViewController {
-//    fileprivate var hasSetInteractivePop: Bool {
-//        return !base.disableInteractivePop
-//    }
-//}
-
-//extension UIViewController {
-//    fileprivate var hasSetInteractivePop: Bool {
-//        return !disableInteractivePop
-//    }
-//}
-

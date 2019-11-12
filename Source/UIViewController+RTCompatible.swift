@@ -7,6 +7,7 @@
 
 import UIKit
 
+// MARK:- 添加私有属性
 extension UIViewController {
     private struct RuntimeKey {
         static var disableInteractivePopKey = "disableInteractivePop"
@@ -28,6 +29,7 @@ extension UIViewController {
     }
 }
 
+// MARK:- 对外暴露.rt的属性
 extension RTCategory where Base: UIViewController {
     
     public var disableInteractivePop: Bool {
@@ -51,8 +53,10 @@ extension RTCategory where Base: UIViewController {
     }
 }
 
+// MARK:- 遵守RTCompatible
 extension UIViewController: RTCompatible {}
 
+// MARK:- 遵守RTNavigationComponentCustomizable
 extension UIViewController: RTNavigationComponentCustomizable {
     open func customBackItemWithTarget(target: Any, action: Selector) -> UIBarButtonItem? {
         return nil

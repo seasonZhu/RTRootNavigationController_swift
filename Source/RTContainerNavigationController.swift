@@ -10,6 +10,32 @@ import UIKit
 /// RTContainerNavigationController
 class RTContainerNavigationController: UINavigationController {
     
+    override var delegate: UINavigationControllerDelegate? {
+        set {
+            if let _ = navigationController {
+                navigationController?.delegate = newValue
+            }else {
+                super.delegate = newValue
+            }
+        }
+        
+        get {
+            return navigationController != nil ? navigationController?.delegate : super.delegate
+        }
+    }
+    
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return (topViewController?.preferredStatusBarStyle)!
+    }
+    
+    override var prefersStatusBarHidden: Bool {
+        return (topViewController?.prefersStatusBarHidden)!
+    }
+    
+    override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
+        return (topViewController?.preferredStatusBarUpdateAnimation)!
+    }
+    
     override init(rootViewController: UIViewController) {
         super.init(navigationBarClass: rootViewController.customNavigationBar(), toolbarClass: rootViewController.customToolbarClass())
         pushViewController(rootViewController, animated: false)
@@ -70,7 +96,7 @@ class RTContainerNavigationController: UINavigationController {
     override var viewControllers: [UIViewController] {
         
         set {
-            if navigationController != nil {
+            if let _ = navigationController {
                 navigationController?.viewControllers = newValue
             }else {
                 super.viewControllers = newValue
@@ -78,7 +104,7 @@ class RTContainerNavigationController: UINavigationController {
         }
         
         get {
-            if navigationController != nil {
+            if let _ = navigationController {
                 if navigationController is RTRootNavigationController {
                     return (rt.navigationController?.rt_viewControllers)!
                 }
@@ -89,9 +115,9 @@ class RTContainerNavigationController: UINavigationController {
     
     override func forUnwindSegueAction(_ action: Selector, from fromViewController: UIViewController, withSender sender: Any?) -> UIViewController? {
         guard #available(iOS 9.0, *) else {
-            if navigationController != nil {
+            if let _ = navigationController {
                 
-                return self.navigationController?.forUnwindSegueAction(_:action,from:fromViewController,withSender:sender)
+                return navigationController?.forUnwindSegueAction(_:action,from:fromViewController,withSender:sender)
             }
             return super.forUnwindSegueAction(_:action,from:fromViewController,withSender:sender)
         }
@@ -100,14 +126,19 @@ class RTContainerNavigationController: UINavigationController {
     
     @available(iOS 9.0, *)
     override func allowedChildrenForUnwinding(from source: UIStoryboardUnwindSegueSource) -> [UIViewController] {
-        if navigationController != nil {
+        if let _ = navigationController {
             return self.navigationController?.allowedChildrenForUnwinding(from:source) ?? []
         }
         return super.allowedChildrenForUnwinding(from:source)
     }
     
+    override func setNavigationBarHidden(_ hidden: Bool, animated: Bool) {
+        super .setNavigationBarHidden(hidden, animated: animated)
+        visibleViewController?.rt.disableInteractivePop = hidden
+    }
+    
     override func pushViewController(_ viewController: UIViewController, animated: Bool) {
-        if navigationController != nil {
+        if let _ = navigationController {
             navigationController?.pushViewController(viewController, animated: animated)
         }else {
             super.pushViewController(viewController, animated: animated)
@@ -115,21 +146,21 @@ class RTContainerNavigationController: UINavigationController {
     }
     
     override func popViewController(animated: Bool) -> UIViewController? {
-        if navigationController != nil {
+        if let _ = navigationController {
             return navigationController?.popViewController(animated: animated)
         }
         return super.popViewController(animated: animated)
     }
     
     override func popToRootViewController(animated: Bool) -> [UIViewController]? {
-        if navigationController != nil {
+        if let _ = navigationController {
             return navigationController?.popToRootViewController(animated: animated)
         }
         return super.popToRootViewController(animated: animated)
     }
     
     override func popToViewController(_ viewController: UIViewController, animated: Bool) -> [UIViewController]? {
-        if navigationController != nil {
+        if let _ = navigationController {
             return navigationController?.popToViewController(viewController,animated: animated)
         }
         return super.popToViewController(viewController,animated: animated)
@@ -141,31 +172,4 @@ class RTContainerNavigationController: UINavigationController {
         }
         return nil
     }
-    
-    override var delegate: UINavigationControllerDelegate? {
-        set {
-            if navigationController != nil {
-                navigationController?.delegate = newValue
-            }else {
-                super.delegate = newValue
-            }
-        }
-        
-        get {
-            return navigationController != nil ? navigationController?.delegate : super.delegate
-        }
-    }
-    
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        return (topViewController?.preferredStatusBarStyle)!
-    }
-    
-    override var prefersStatusBarHidden: Bool {
-        return (topViewController?.prefersStatusBarHidden)!
-    }
-    
-    override var preferredStatusBarUpdateAnimation: UIStatusBarAnimation {
-        return (topViewController?.preferredStatusBarUpdateAnimation)!
-    }
-    
 }

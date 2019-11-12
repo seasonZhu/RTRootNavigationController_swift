@@ -95,7 +95,7 @@ public class RTRootNavigationController: UINavigationController {
     
     public override func setNavigationBarHidden(_ hidden: Bool, animated: Bool) {
         super.setNavigationBarHidden(hidden, animated: animated)
-        visibleViewController?.rt.disableInteractivePop = hidden
+        
     }
     
     public override func pushViewController(_ viewController: UIViewController, animated: Bool) {
@@ -187,9 +187,9 @@ public class RTRootNavigationController: UINavigationController {
 
     
     // MARK: Public
-    public @IBInspectable var transferNavigationBarAttributes: Bool = false
+    @IBInspectable public var transferNavigationBarAttributes: Bool = false
     
-    public @IBInspectable var useSystemBackBarButtonItem: Bool = false
+    @IBInspectable public var useSystemBackBarButtonItem: Bool = false
     
     public func removeViewController(controller: UIViewController, animated flag: Bool = false) {
         
@@ -285,7 +285,7 @@ extension RTRootNavigationController {
     }
 }
 
-// MARK: - UINavigationControllerDelegate
+// MARK:- UINavigationControllerDelegate
 extension RTRootNavigationController: UINavigationControllerDelegate {
     
     public func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
@@ -359,7 +359,7 @@ extension RTRootNavigationController: UINavigationControllerDelegate {
     }
 }
 
-// MARK: - UIGestureRecognizerDelegate
+// MARK:- UIGestureRecognizerDelegate
 extension RTRootNavigationController: UIGestureRecognizerDelegate {
     public func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
@@ -370,6 +370,7 @@ extension RTRootNavigationController: UIGestureRecognizerDelegate {
     }
 }
 
+// MARK:- RTCategory About RTRootNavigationController
 extension RTCategory where Base: RTRootNavigationController {
     fileprivate var delegate: UINavigationControllerDelegate? {
         set{

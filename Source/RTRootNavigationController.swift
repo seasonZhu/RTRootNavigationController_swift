@@ -99,7 +99,8 @@ open class RTRootNavigationController: UINavigationController {
     }
     
     open override func setNavigationBarHidden(_ hidden: Bool, animated: Bool) {
-
+        super.setNavigationBarHidden(hidden, animated: animated)
+        visibleViewController?.rt.disableInteractivePop = hidden
     }
     
     open override func pushViewController(_ viewController: UIViewController, animated: Bool) {
@@ -150,11 +151,18 @@ open class RTRootNavigationController: UINavigationController {
     /*
     open override func setViewControllers(_ viewControllers: [UIViewController], animated: Bool) {
         
-        super.setViewControllers(viewControllers.enumerated().map{ (index, item) in
-            if self.useSystemBackBarButtonItem && index > 0 {
-                return RTSafeWrapViewController(controller: item, navigationBarClass: item.customNavigationBar(), withPlaceholder: self.useSystemBackBarButtonItem, backItem: viewControllers[index - 1].navigationItem.backBarButtonItem, backTitle: viewControllers[index - 1].navigationItem.title)
+        super.setViewControllers(viewControllers.enumerated().map { (index, item) in
+            if useSystemBackBarButtonItem && index > 0 {
+                return RTSafeWrapViewController(controller: item,
+                                                navigationBarClass: item.customNavigationBar(),
+                                                toolbarClass: item.customToolbarClass(),
+                                                withPlaceholder: useSystemBackBarButtonItem,
+                                                backItem: viewControllers[index - 1].navigationItem.backBarButtonItem,
+                                                backTitle: viewControllers[index - 1].navigationItem.title)
             }else {
-                return RTSafeWrapViewController(controller: item, navigationBarClass: item.customNavigationBar())
+                return RTSafeWrapViewController(controller: item,
+                                                navigationBarClass: item.customNavigationBar(),
+                                                toolbarClass: item.customToolbarClass())
             }
         }, animated: animated)
     }
@@ -234,8 +242,8 @@ open class RTRootNavigationController: UINavigationController {
         
         if let count = vcs?.count, count > 0 {
             animationComplete?(true)
-            animationComplete = nil
         }
+        animationComplete = nil
         return vcs
     }
     
@@ -248,8 +256,8 @@ open class RTRootNavigationController: UINavigationController {
         
         if let count = vcs?.count, count > 0 {
             animationComplete?(true)
-            animationComplete = nil
         }
+        animationComplete = nil
         return vcs
     }
 }
@@ -300,7 +308,7 @@ extension RTRootNavigationController: UINavigationControllerDelegate {
             }
             */
             
-            if !self.useSystemBackBarButtonItem && !hasSetLeftItem {
+            if !useSystemBackBarButtonItem && !hasSetLeftItem {
                 if let customBackItem = unwrapVC.customBackItemWithTarget(target: self, action: #selector(onBack(sender:))) {
                     unwrapVC.navigationItem.leftBarButtonItem = customBackItem
                 }else {
@@ -316,6 +324,10 @@ extension RTRootNavigationController: UINavigationControllerDelegate {
         
         let isRootVC = viewController == navigationController.viewControllers.first
         let unwrapVC = RTSafeUnwrapViewController(wrapVC: viewController)!
+        
+        if !animated {
+            let _ = unwrapVC.view
+        }
         
         if unwrapVC.rt.disableInteractivePop {
             interactivePopGestureRecognizer?.delegate = nil
@@ -362,18 +374,6 @@ extension RTRootNavigationController: UIGestureRecognizerDelegate {
     }
 }
 
-//extension RTCategory where Base: UIViewController {
-//    fileprivate var hasSetInteractivePop: Bool {
-//        return !base.disableInteractivePop
-//    }
-//}
-
-//extension UIViewController {
-//    fileprivate var hasSetInteractivePop: Bool {
-//        return !disableInteractivePop
-//    }
-//}
-
 extension RTCategory where Base: RTRootNavigationController {
     fileprivate var delegate: UINavigationControllerDelegate? {
         set{
@@ -398,4 +398,15 @@ extension RTCategory where Base: RTRootNavigationController {
     }
 }
 
+//extension RTCategory where Base: UIViewController {
+//    fileprivate var hasSetInteractivePop: Bool {
+//        return !base.disableInteractivePop
+//    }
+//}
+
+//extension UIViewController {
+//    fileprivate var hasSetInteractivePop: Bool {
+//        return !disableInteractivePop
+//    }
+//}
 

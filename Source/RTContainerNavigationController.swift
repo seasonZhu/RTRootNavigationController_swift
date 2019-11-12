@@ -11,7 +11,7 @@ import UIKit
 open class RTContainerNavigationController: UINavigationController {
     
     override init(rootViewController: UIViewController) {
-        super.init(navigationBarClass: rootViewController.customNavigationBar(), toolbarClass: nil)
+        super.init(navigationBarClass: rootViewController.customNavigationBar(), toolbarClass: rootViewController.customToolbarClass())
         pushViewController(rootViewController, animated: false)
     }
     
@@ -30,7 +30,7 @@ open class RTContainerNavigationController: UINavigationController {
     open override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.interactivePopGestureRecognizer?.isEnabled = false
+        interactivePopGestureRecognizer?.isEnabled = false
         
         if rt.navigationController?.transferNavigationBarAttributes == true {
             navigationBar.isTranslucent   = (navigationController?.navigationBar.isTranslucent)!
@@ -47,7 +47,7 @@ open class RTContainerNavigationController: UINavigationController {
             navigationBar.backIndicatorImage               = navigationController?.navigationBar.backIndicatorImage;
             navigationBar.backIndicatorTransitionMaskImage = navigationController?.navigationBar.backIndicatorTransitionMaskImage;
         }
-        self.view.layoutIfNeeded()
+        view.layoutIfNeeded()
     }
     
     open override var tabBarController: UITabBarController? {
@@ -72,7 +72,7 @@ open class RTContainerNavigationController: UINavigationController {
         set {
             if navigationController != nil {
                 navigationController?.viewControllers = newValue
-            }else{
+            }else {
                 super.viewControllers = newValue
             }
         }
@@ -88,8 +88,9 @@ open class RTContainerNavigationController: UINavigationController {
     }
     
     open override func forUnwindSegueAction(_ action: Selector, from fromViewController: UIViewController, withSender sender: Any?) -> UIViewController? {
-        guard #available(iOS 9.0, *) else{
+        guard #available(iOS 9.0, *) else {
             if navigationController != nil {
+                
                 return self.navigationController?.forUnwindSegueAction(_:action,from:fromViewController,withSender:sender)
             }
             return super.forUnwindSegueAction(_:action,from:fromViewController,withSender:sender)

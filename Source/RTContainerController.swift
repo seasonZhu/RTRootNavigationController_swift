@@ -17,12 +17,12 @@ open class RTContainerController: UIViewController {
     
     fileprivate var containerNavigationController: UINavigationController?
     
-    init(controller: UIViewController, navigationBarClass: AnyClass?, withPlaceholder: Bool, backItem: UIBarButtonItem?, backTitle: String?) {
+    init(controller: UIViewController, navigationBarClass: AnyClass?, toolbarClass: AnyClass?, withPlaceholder: Bool, backItem: UIBarButtonItem?, backTitle: String?) {
         
         super.init(nibName:nil,bundle:nil)
         
         contentViewController = controller
-        containerNavigationController = RTContainerNavigationController(navigationBarClass:navigationBarClass, toolbarClass:nil)
+        containerNavigationController = RTContainerNavigationController(navigationBarClass:navigationBarClass, toolbarClass: toolbarClass)
         
         if withPlaceholder {
             let vc = UIViewController()
@@ -141,9 +141,15 @@ open class RTContainerController: UIViewController {
     }
 }
 
-internal func RTSafeWrapViewController(controller: UIViewController, navigationBarClass: AnyClass?, withPlaceholder: Bool = false, backItem: UIBarButtonItem? = nil, backTitle: String? = nil) -> UIViewController {
+internal func RTSafeWrapViewController(controller: UIViewController,
+                                       navigationBarClass: AnyClass?,
+                                       toolbarClass: AnyClass?,
+                                       withPlaceholder: Bool = false,
+                                       backItem: UIBarButtonItem? = nil,
+                                       backTitle: String? = nil) -> UIViewController {
     return RTContainerController(controller: controller,
                                  navigationBarClass: navigationBarClass,
+                                 toolbarClass: toolbarClass,
                                  withPlaceholder: withPlaceholder,
                                  backItem: backItem,
                                  backTitle: backTitle)

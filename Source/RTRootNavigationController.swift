@@ -10,14 +10,12 @@ import UIKit
 
 open class RTRootNavigationController: UINavigationController {
     
-    // MARK: fileprivate
+    // MARK:- fileprivate
     fileprivate var animationComplete: ((Bool) -> Swift.Void)?
     
     fileprivate var rt_Delegate: UINavigationControllerDelegate?
     
-    
-    // MARK: override
-    
+    // MARK:- override
     open override var delegate: UINavigationControllerDelegate? {
         set {
             self.rt.delegate = newValue
@@ -69,9 +67,8 @@ open class RTRootNavigationController: UINavigationController {
             var controller: UIViewController? = super.forUnwindSegueAction(action, from: fromViewController, withSender: sender)
             
             if controller == nil {
-                let index = viewControllers.index(of: fromViewController)
-                if index != NSNotFound {
-                    for i in (index! - 1)...0  {
+                if let index = viewControllers.firstIndex(of: fromViewController) {
+                    for i in (index - 1)...0  {
                         controller = viewControllers[i].forUnwindSegueAction(action, from: fromViewController, withSender: sender)
                         
                         if controller != nil { break }
@@ -89,12 +86,11 @@ open class RTRootNavigationController: UINavigationController {
         var controller: [UIViewController]? = super.allowedChildrenForUnwinding(from: source)
         
         if controller?.count == 0 {
-            let index = self.viewControllers.index(of: source.source)
-            if index != NSNotFound {
-                for i in (index! - 1)...0  {
+            if let index = viewControllers.firstIndex(of: source.source) {
+                for i in (index - 1)...0  {
                     controller = self.viewControllers[i].allowedChildrenForUnwinding(from: source)
                     
-                    if controller?.count != 0 {break}
+                    if controller?.count != 0 { break }
                 }
             }
             
@@ -108,20 +104,28 @@ open class RTRootNavigationController: UINavigationController {
     
     open override func pushViewController(_ viewController: UIViewController, animated: Bool) {
         if self.viewControllers.count > 0 {
-            let currentLast = RTSafeUnwrapViewController(wrapVC: self.viewControllers.last!)!
-
-            super.pushViewController(RTSafeWrapViewController(controller: viewController, navigationBarClass: viewController.customNavigationBar(), withPlaceholder: self.useSystemBackBarButtonItem, backItem: currentLast.navigationItem.backBarButtonItem, backTitle: currentLast.navigationItem.title), animated: animated)
+            let currentLast = RTSafeUnwrapViewController(wrapVC: viewControllers.last!)!
+            let safeWrapVC = RTSafeWrapViewController(controller: viewController,
+                                             navigationBarClass: viewController.customNavigationBar(),
+                                             toolbarClass: viewController.customToolbarClass(),
+                                             withPlaceholder: useSystemBackBarButtonItem,
+                                             backItem: currentLast.navigationItem.backBarButtonItem,
+                                             backTitle: currentLast.navigationItem.title)
+            super.pushViewController(safeWrapVC, animated: animated)
         }else {
-            super.pushViewController(RTSafeWrapViewController(controller: viewController, navigationBarClass: viewController.customNavigationBar()), animated: animated)
+            let safeWrapVC = RTSafeWrapViewController(controller: viewController,
+                                                      navigationBarClass: viewController.customNavigationBar(),
+                                                      toolbarClass: viewController.customToolbarClass())
+            super.pushViewController(safeWrapVC, animated: animated)
         }
     }
     
     open override func popViewController(animated: Bool) -> UIViewController? {
-        return RTSafeUnwrapViewController(wrapVC: super.popViewController(animated: animated)!)
+        return RTSafeUnwrapViewController(wrapVC: super.popViewController(animated: animated))
     }
     
     open override func popToRootViewController(animated: Bool) -> [UIViewController]? {
-        return super.popToRootViewController(animated: animated)?.map{
+        return super.popToRootViewController(animated: animated)?.compactMap {
             return RTSafeUnwrapViewController(wrapVC: $0)!
         }
     }
@@ -167,7 +171,6 @@ open class RTRootNavigationController: UINavigationController {
         return (topViewController?.preferredInterfaceOrientationForPresentation)!
     }
     
-    
     open override func responds(to aSelector: Selector!) -> Bool {
         if super.responds(to: aSelector){
             return true
@@ -195,7 +198,7 @@ open class RTRootNavigationController: UINavigationController {
             break
         }
         
-        if let ctp = controllerToRemove, let index = viewControllers.index(of: ctp){
+        if let ctp = controllerToRemove, let index = viewControllers.index(of: ctp) {
             viewControllers.remove(at: index)
             super.setViewControllers(viewControllers, animated: flag)
         }

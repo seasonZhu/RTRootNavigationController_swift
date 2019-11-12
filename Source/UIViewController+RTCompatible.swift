@@ -61,4 +61,8 @@ extension UIViewController: RTNavigationComponentCustomizable {
     open func customNavigationBar() -> AnyClass? {
         return nil
     }
+    
+    open func customToolbarClass() -> AnyClass? {
+        return nil
+    }
 }

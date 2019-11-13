@@ -50,11 +50,11 @@ public class RTContainerController: UIViewController {
         if let containerNav = self.containerNavigationController {
             containerNav.view.autoresizingMask = [.flexibleWidth,.flexibleHeight]
             view.addSubview(containerNav.view)
-            containerNav.view.frame = self.view.bounds
+            containerNav.view.frame = view.bounds
         }else {
             contentViewController?.view.autoresizingMask = [.flexibleWidth,.flexibleHeight]
-            contentViewController?.view.frame = self.view.bounds
-            view.addSubview((self.contentViewController?.view)!)
+            contentViewController?.view.frame = view.bounds
+            view.addSubview((contentViewController?.view)!)
         }
     }
     

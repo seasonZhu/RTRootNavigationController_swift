@@ -45,6 +45,11 @@ public class RTRootNavigationController: UINavigationController {
         commonInit()
     }
     
+    public init(rootViewControllerNoWrapping: UIViewController) {
+        super.init(rootViewController: RTContainerController(contentController: rootViewControllerNoWrapping))
+        commonInit()
+    }
+
     public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
@@ -269,7 +274,7 @@ extension RTRootNavigationController {
     }
     
     var rt_viewControllers: [UIViewController]? {
-        return super.viewControllers.map{
+        return super.viewControllers.compactMap {
             return RTSafeUnwrapViewController(wrapVC: $0)!
         }
     }

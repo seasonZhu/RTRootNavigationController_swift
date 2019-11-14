@@ -205,7 +205,7 @@ public class RTRootNavigationController: UINavigationController {
             break
         }
         
-        if let ctp = controllerToRemove, let index = viewControllers.index(of: ctp) {
+        if let ctp = controllerToRemove, let index = viewControllers.firstIndex(of: ctp) {
             viewControllers.remove(at: index)
             super.setViewControllers(viewControllers, animated: flag)
         }

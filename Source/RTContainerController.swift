@@ -33,28 +33,30 @@ public class RTContainerController: UIViewController {
             containerNavigationController?.viewControllers = [controller]
         }
         
-        addChild(self.containerNavigationController!)
+        addChild(containerNavigationController!)
         containerNavigationController?.didMove(toParent: self)
     }
     
     init(contentController: UIViewController) {
         super.init(nibName:nil,bundle:nil)
         contentViewController = contentController
-        addChild(self.contentViewController!)
+        addChild(contentViewController!)
         contentViewController?.didMove(toParent: self)
     }
     
     public override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let containerNav = self.containerNavigationController {
+        if let containerNav = containerNavigationController {
             containerNav.view.autoresizingMask = [.flexibleWidth,.flexibleHeight]
             view.addSubview(containerNav.view)
             containerNav.view.frame = view.bounds
         }else {
-            contentViewController?.view.autoresizingMask = [.flexibleWidth,.flexibleHeight]
-            contentViewController?.view.frame = view.bounds
-            view.addSubview((contentViewController?.view)!)
+            if let contentVC = contentViewController {
+                contentVC.view.autoresizingMask = [.flexibleWidth,.flexibleHeight]
+                contentVC.view.frame = view.bounds
+                view.addSubview(contentVC.view)
+            }
         }
     }
     

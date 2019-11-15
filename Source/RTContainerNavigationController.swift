@@ -44,13 +44,17 @@ class RTContainerNavigationController: UINavigationController {
     override init(navigationBarClass: AnyClass?, toolbarClass: AnyClass?) {
         super.init(navigationBarClass: navigationBarClass, toolbarClass: toolbarClass)
     }
-    
+
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
     }
     
     override func viewDidLoad() {
@@ -135,6 +139,14 @@ class RTContainerNavigationController: UINavigationController {
     override func setNavigationBarHidden(_ hidden: Bool, animated: Bool) {
         super .setNavigationBarHidden(hidden, animated: animated)
         visibleViewController?.rt.disableInteractivePop = !hidden
+    }
+    
+    override func setViewControllers(_ viewControllers: [UIViewController], animated: Bool) {
+        if let _ = navigationController {
+            navigationController?.setViewControllers(viewControllers, animated: animated)
+        }else {
+            super.setViewControllers(viewControllers, animated: animated)
+        }
     }
     
     override func pushViewController(_ viewController: UIViewController, animated: Bool) {

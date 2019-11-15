@@ -19,7 +19,7 @@ public class RTContainerController: UIViewController {
     
     init(controller: UIViewController, navigationBarClass: AnyClass?, toolbarClass: AnyClass?, withPlaceholder: Bool, backItem: UIBarButtonItem?, backTitle: String?) {
         
-        super.init(nibName:nil,bundle:nil)
+        super.init(nibName: nil, bundle: nil)
         
         contentViewController = controller
         containerNavigationController = RTContainerNavigationController(navigationBarClass:navigationBarClass, toolbarClass: toolbarClass)
@@ -38,7 +38,7 @@ public class RTContainerController: UIViewController {
     }
     
     init(contentController: UIViewController) {
-        super.init(nibName:nil,bundle:nil)
+        super.init(nibName: nil,bundle: nil)
         contentViewController = contentController
         addChild(contentViewController!)
         contentViewController?.didMove(toParent: self)

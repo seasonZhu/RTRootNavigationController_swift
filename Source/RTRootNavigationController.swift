@@ -207,6 +207,7 @@ public class RTRootNavigationController: UINavigationController {
         
         if let ctp = controllerToRemove, let index = viewControllers.firstIndex(of: ctp) {
             viewControllers.remove(at: index)
+            // 这个地方的setViewControllers会调用当前类中的setViewControllers,导致出了问题,而OC版本不会
             super.setViewControllers(viewControllers, animated: flag)
         }
     }

@@ -12,6 +12,10 @@ import ObjectiveC
 }
 
 public extension RTNavigation {
+    /// 基础控制器的运行时类型名称，不包含模块名，区分大小写。
+    /// 使用真实实例类型，即使通过父类引用访问也返回子类名称；不同模块的同名类会匹配为相同名称。
+    var className: String { String(describing: type(of: base)) }
+
     /// 是否显式禁用当前页面的边缘交互返回。
     /// 未设置时读取为 `false`，框架仍会根据隐藏导航栏和业务左按钮自动判定。
     /// 一旦赋值（包括 `false`），显式值优先于自动判定；不影响按钮返回和程序化 pop。

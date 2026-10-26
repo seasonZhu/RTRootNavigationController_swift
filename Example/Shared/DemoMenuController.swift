@@ -17,12 +17,30 @@ final class DemoMenuController: UITableViewController {
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "集成信息", style: .plain, target: self, action: #selector(showIntegration))
     }
-    override func numberOfSections(in tableView: UITableView) -> Int { 2 }
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { section == 0 ? scenarios.count : 5 }
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? { section == 0 ? "页面与转场" : "容器与兼容" }
+    override func numberOfSections(in tableView: UITableView) -> Int { 3 }
+
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        switch section {
+        case 0: return scenarios.count
+        case 1: return 5
+        default: return DemoStackOperationsController.Scenario.allCases.count
+        }
+    }
+
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        ["页面与转场", "容器与兼容", "按类名管理导航栈"][section]
+    }
+
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.textLabel?.text = indexPath.section == 0 ? scenarios[indexPath.row].0 : ["系统返回按钮", "显式外观继承", "TabBar 中分别嵌套根导航", "根导航包裹 TabBar", "Storyboard 与 unwind"][indexPath.row]
+        switch indexPath.section {
+        case 0:
+            cell.textLabel?.text = scenarios[indexPath.row].0
+        case 1:
+            cell.textLabel?.text = ["系统返回按钮", "显式外观继承", "TabBar 中分别嵌套根导航", "根导航包裹 TabBar", "Storyboard 与 unwind"][indexPath.row]
+        default:
+            cell.textLabel?.text = DemoStackOperationsController.Scenario.allCases[indexPath.row].title
+        }
         cell.accessoryType = .disclosureIndicator
         return cell
     }
@@ -30,6 +48,11 @@ final class DemoMenuController: UITableViewController {
         tableView.deselectRow(at: indexPath, animated: true)
         if indexPath.section == 0 {
             navigationController?.pushViewController(DemoPageController(mode: scenarios[indexPath.row].1), animated: true)
+            return
+        }
+        if indexPath.section == 2 {
+            let scenario = DemoStackOperationsController.Scenario.allCases[indexPath.row]
+            rt.navigationController?.pushViewController(scenario.makePage(at: 0), animated: true)
             return
         }
         switch indexPath.row {

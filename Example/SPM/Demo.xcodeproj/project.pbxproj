@@ -8,13 +8,17 @@
 
 /* Begin PBXBuildFile section */
 		3BB0CA13DC3EBA842FD795E6 /* StoryboardControllers.swift in Sources */ = {isa = PBXBuildFile; fileRef = E471BDDAED458D054B07C437 /* StoryboardControllers.swift */; };
+		3BEBB1C64F8181FDDBC249D0 /* DemoStackOperationsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A9E71CBB9ADF2B2367357A3 /* DemoStackOperationsController.swift */; };
 		3F5BCDAA03BF6BF9FB0F1F98 /* NavigationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E06D497268F8024644D78A2A /* NavigationTests.swift */; };
+		5995F226E7D748DE29E64CAA /* DemoStackPageBController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EC65141C0FA4BDD88E14938 /* DemoStackPageBController.swift */; };
 		75D9EF12592E24A7EA77C984 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6F55F70DB1B3E747C7243776 /* AppDelegate.swift */; };
 		792442C08B6F1376FB3AE5D8 /* UnwindFixture.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C99B2AE05304B27775D3AFD1 /* UnwindFixture.storyboard */; };
 		88879D4DB4C6EDB80614017D /* RTRootNavigationController_Swift in Frameworks */ = {isa = PBXBuildFile; productRef = 067343FE63B12FA6EDA6108C /* RTRootNavigationController_Swift */; };
 		A275B64C734738B3EA44F3BD /* DemoPageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22E2AF03E8F1E34DE3BF35CE /* DemoPageController.swift */; };
+		A52853C0FA7123F95E1A12CA /* DemoStackPageAController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A88E654D01A80972A4B0085 /* DemoStackPageAController.swift */; };
 		AF029B71A48E57854757F93F /* UnwindFixture.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6902086D37733C465A20AE4 /* UnwindFixture.storyboard */; };
 		C03C21DEFDBA0FB6C5AC7CB3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66DFD1FFC808BAF0A44DBA3C /* Foundation.framework */; };
+		D27D469D4DAA821EA9189CA5 /* DemoStackPageCController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 83A0D2C2E2FC68A96B65D996 /* DemoStackPageCController.swift */; };
 		D4635BDBA9D09EB4D0BDB24C /* RTRootNavigationController_Swift in Frameworks */ = {isa = PBXBuildFile; productRef = 51BC97652BB4AC1C80DE5183 /* RTRootNavigationController_Swift */; };
 		F40F7D8F196A763F4A4FC831 /* DemoMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBAD7D7C59E5F6038A13FAC3 /* DemoMenuController.swift */; };
 		F9BD889478E413A5791F9195 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 66DFD1FFC808BAF0A44DBA3C /* Foundation.framework */; };
@@ -32,8 +36,12 @@
 
 /* Begin PBXFileReference section */
 		22E2AF03E8F1E34DE3BF35CE /* DemoPageController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DemoPageController.swift; path = ../Shared/DemoPageController.swift; sourceTree = "<group>"; };
+		4EC65141C0FA4BDD88E14938 /* DemoStackPageBController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DemoStackPageBController.swift; path = ../Shared/DemoStackPageBController.swift; sourceTree = "<group>"; };
 		66DFD1FFC808BAF0A44DBA3C /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		6A88E654D01A80972A4B0085 /* DemoStackPageAController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DemoStackPageAController.swift; path = ../Shared/DemoStackPageAController.swift; sourceTree = "<group>"; };
 		6F55F70DB1B3E747C7243776 /* AppDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = ../Shared/AppDelegate.swift; sourceTree = "<group>"; };
+		7A9E71CBB9ADF2B2367357A3 /* DemoStackOperationsController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DemoStackOperationsController.swift; path = ../Shared/DemoStackOperationsController.swift; sourceTree = "<group>"; };
+		83A0D2C2E2FC68A96B65D996 /* DemoStackPageCController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DemoStackPageCController.swift; path = ../Shared/DemoStackPageCController.swift; sourceTree = "<group>"; };
 		B6902086D37733C465A20AE4 /* UnwindFixture.storyboard */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.storyboard; name = UnwindFixture.storyboard; path = ../Resources/UnwindFixture.storyboard; sourceTree = "<group>"; };
 		C99B2AE05304B27775D3AFD1 /* UnwindFixture.storyboard */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.storyboard; name = UnwindFixture.storyboard; path = ../Resources/UnwindFixture.storyboard; sourceTree = "<group>"; };
 		E06D497268F8024644D78A2A /* NavigationTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NavigationTests.swift; path = ../../Tests/RTRootNavigationControllerTests/NavigationTests.swift; sourceTree = "<group>"; };
@@ -80,6 +88,10 @@
 				EBAD7D7C59E5F6038A13FAC3 /* DemoMenuController.swift */,
 				22E2AF03E8F1E34DE3BF35CE /* DemoPageController.swift */,
 				E471BDDAED458D054B07C437 /* StoryboardControllers.swift */,
+				7A9E71CBB9ADF2B2367357A3 /* DemoStackOperationsController.swift */,
+				6A88E654D01A80972A4B0085 /* DemoStackPageAController.swift */,
+				4EC65141C0FA4BDD88E14938 /* DemoStackPageBController.swift */,
+				83A0D2C2E2FC68A96B65D996 /* DemoStackPageCController.swift */,
 			);
 			name = "Shared";
 			sourceTree = "<group>";
@@ -234,6 +246,10 @@
 				F40F7D8F196A763F4A4FC831 /* DemoMenuController.swift in Sources */,
 				A275B64C734738B3EA44F3BD /* DemoPageController.swift in Sources */,
 				3BB0CA13DC3EBA842FD795E6 /* StoryboardControllers.swift in Sources */,
+				3BEBB1C64F8181FDDBC249D0 /* DemoStackOperationsController.swift in Sources */,
+				A52853C0FA7123F95E1A12CA /* DemoStackPageAController.swift in Sources */,
+				5995F226E7D748DE29E64CAA /* DemoStackPageBController.swift in Sources */,
+				D27D469D4DAA821EA9189CA5 /* DemoStackPageCController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

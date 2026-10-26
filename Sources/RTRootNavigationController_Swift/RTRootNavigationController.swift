@@ -239,6 +239,66 @@ open class RTRootNavigationController: UINavigationController, UINavigationContr
         return result
     }
 
+    /// 压入目标页面，并在转场成功后一次性无动画移除指定的旧页面。
+    /// 删除范围在 Push 前记录；取消、被后续带回调操作替换或目标不再为栈顶时不清理。
+    /// 新目标始终保留；普通 Push 不会隐式移除当前页。
+    /// - Parameters:
+    ///   - viewController: 目标内容页面，同一实例不能重复入栈。
+    ///   - animated: 是否使用 Push 动画。
+    ///   - removeViewControllerClassNameList: 需移除的旧页面类名，区分大小写，匹配全部同名实例。
+    ///   - removeCurrentViewController: 是否移除 Push 前的真实栈顶实例，必须显式指定。
+    public func pushViewController(
+        _ viewController: UIViewController,
+        animated: Bool,
+        removeViewControllerClassNameList: [String] = [],
+        removeCurrentViewController: Bool
+    ) {
+        let oldStack = rt.viewControllers
+        let names = Set(removeViewControllerClassNameList)
+        let current = removeCurrentViewController ? oldStack.last : nil
+        let pagesToRemove = oldStack.filter {
+            names.contains($0.rt.className) || $0 === current
+        }
+        pushViewController(viewController, animated: animated) { [weak self] finished in
+            guard finished, let self, self.rt.topViewController === viewController else { return }
+            let removalIDs = Set(pagesToRemove.map(ObjectIdentifier.init))
+            let stack = self.rt.viewControllers
+            let remaining = stack.filter { $0 === viewController || !removalIDs.contains(ObjectIdentifier($0)) }
+            guard remaining.count != stack.count else { return }
+            self.setViewControllers(remaining, animated: false)
+        }
+    }
+
+    /// 按运行时类名移除全部匹配的真实内容页面，一次性更新导航栈。
+    /// 空名单、无匹配或结果将形成空栈时不操作；不同模块的同名类均会被匹配。
+    /// - Parameters:
+    ///   - classNames: 需移除的页面类名，区分大小写，重复名称不影响结果。
+    ///   - animated: 是否使用栈更新动画，默认为 `false`。
+    public func removeViewControllerByClassNames(_ classNames: [String], animated: Bool = false) {
+        let names = Set(classNames)
+        guard !names.isEmpty else { return }
+        let stack = rt.viewControllers
+        let remaining = stack.filter { !names.contains($0.rt.className) }
+        guard !remaining.isEmpty, remaining.count != stack.count else { return }
+        setViewControllers(remaining, animated: animated)
+    }
+
+    /// 从栈底查找第一个同名真实页面并返回，未找到时返回上一页。
+    /// 已在目标页或根页面无法返回时，沿用现有无操作完成语义，回调 `true`。
+    /// - Parameters:
+    ///   - className: 目标页面的运行时类名，区分大小写，不包含模块名。
+    ///   - animated: 是否使用返回动画，目标查找失败时同样遵守此值。
+    ///   - completion: 可选完成回调；完成或无操作为 `true`，取消或被替换为 `false`，可能同步调用。
+    public func popToViewController(className: String, animated: Bool, completion: ((Bool) -> Void)? = nil) {
+        if let target = rt.viewControllers.first(where: { $0.rt.className == className }) {
+            if let completion { popToViewController(target, animated: animated, completion: completion) }
+            else { popToViewController(target, animated: animated) }
+        } else {
+            if let completion { popViewController(animated: animated, completion: completion) }
+            else { popViewController(animated: animated) }
+        }
+    }
+
     private func beginCompletion(_ completion: @escaping (Bool) -> Void) -> UInt? {
         completionGeneration &+= 1
         let generation = completionGeneration

@@ -12,9 +12,13 @@
 		1E853E6AB4378CEAE3596B4F /* StoryboardControllers.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA8BAEB87F82E04F429133A1 /* StoryboardControllers.swift */; };
 		206647C1CF26287C1160FA07 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C9887B90D838C1DDB624A9C /* AppDelegate.swift */; };
 		4A844955B2EAE47E2385712C /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B26362FB311572655C2B9CE2 /* Foundation.framework */; };
+		53685E2DBB65F3DA6F15FF35 /* DemoStackPageAController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E3194635EEA130D96DD0686 /* DemoStackPageAController.swift */; };
+		63E9ADFCFC3AB98C96B3082D /* DemoStackOperationsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 335257E14DE1E6D32F4D1E4E /* DemoStackOperationsController.swift */; };
 		7E330B2EBF18B52A7ADADE6F /* UnwindFixture.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7AF231C28930476425E397EB /* UnwindFixture.storyboard */; };
 		8F7629B7E9B85584D0602201 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B26362FB311572655C2B9CE2 /* Foundation.framework */; };
 		BFA5B9583594B9E52D4ED7F7 /* DemoMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A65600001DDFB4AADC76E48 /* DemoMenuController.swift */; };
+		C3CF7F4181ED956CF4F384C2 /* DemoStackPageBController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD9E2FB4ABC1EE502D9FC421 /* DemoStackPageBController.swift */; };
+		C74FFDDA1BE302D78334C262 /* DemoStackPageCController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A4F39B5988E07A5F4597855 /* DemoStackPageCController.swift */; };
 		E9FFDA9F8A8F7DFE0817A1D9 /* Pods_DemoCocoaPods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DA1793D1C6E671DD07B2E89 /* Pods_DemoCocoaPods.framework */; };
 		F000357A44CE7C617B38B90C /* NavigationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CEC4636501FB30F05B36BF8 /* NavigationTests.swift */; };
 		F9AA1F7E05BF70ECA751494B /* UnwindFixture.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7990515A05D4B9C30198A804 /* UnwindFixture.storyboard */; };
@@ -36,16 +40,20 @@
 		18D0EE766EEF168D10D89BEA /* DemoPageController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DemoPageController.swift; path = ../Shared/DemoPageController.swift; sourceTree = "<group>"; };
 		1D9EDAE9CE7C737D363481B9 /* DemoCocoaPods.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DemoCocoaPods.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2A65600001DDFB4AADC76E48 /* DemoMenuController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DemoMenuController.swift; path = ../Shared/DemoMenuController.swift; sourceTree = "<group>"; };
+		335257E14DE1E6D32F4D1E4E /* DemoStackOperationsController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DemoStackOperationsController.swift; path = ../Shared/DemoStackOperationsController.swift; sourceTree = "<group>"; };
 		5DA1793D1C6E671DD07B2E89 /* Pods_DemoCocoaPods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DemoCocoaPods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		658CCCC7C4D27427E7277566 /* DemoCocoaPodsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DemoCocoaPodsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		70CB1C3A90C3FE12B2650A59 /* Pods_DemoCocoaPodsTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DemoCocoaPodsTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7990515A05D4B9C30198A804 /* UnwindFixture.storyboard */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.storyboard; name = UnwindFixture.storyboard; path = ../Resources/UnwindFixture.storyboard; sourceTree = "<group>"; };
 		7AF231C28930476425E397EB /* UnwindFixture.storyboard */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = file.storyboard; name = UnwindFixture.storyboard; path = ../Resources/UnwindFixture.storyboard; sourceTree = "<group>"; };
 		7C9887B90D838C1DDB624A9C /* AppDelegate.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = ../Shared/AppDelegate.swift; sourceTree = "<group>"; };
+		9A4F39B5988E07A5F4597855 /* DemoStackPageCController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DemoStackPageCController.swift; path = ../Shared/DemoStackPageCController.swift; sourceTree = "<group>"; };
 		9B752935111AD763786F6031 /* Pods-DemoCocoaPodsTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoCocoaPodsTests.release.xcconfig"; path = "Target Support Files/Pods-DemoCocoaPodsTests/Pods-DemoCocoaPodsTests.release.xcconfig"; sourceTree = "<group>"; };
+		9E3194635EEA130D96DD0686 /* DemoStackPageAController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DemoStackPageAController.swift; path = ../Shared/DemoStackPageAController.swift; sourceTree = "<group>"; };
 		B26362FB311572655C2B9CE2 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
 		CA8BAEB87F82E04F429133A1 /* StoryboardControllers.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = StoryboardControllers.swift; path = ../Shared/StoryboardControllers.swift; sourceTree = "<group>"; };
 		CDE37442CD63239F492097A1 /* Pods-DemoCocoaPodsTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoCocoaPodsTests.debug.xcconfig"; path = "Target Support Files/Pods-DemoCocoaPodsTests/Pods-DemoCocoaPodsTests.debug.xcconfig"; sourceTree = "<group>"; };
+		DD9E2FB4ABC1EE502D9FC421 /* DemoStackPageBController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = DemoStackPageBController.swift; path = ../Shared/DemoStackPageBController.swift; sourceTree = "<group>"; };
 		E8DB37DF09592FC6517AF551 /* Pods-DemoCocoaPods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DemoCocoaPods.debug.xcconfig"; path = "Target Support Files/Pods-DemoCocoaPods/Pods-DemoCocoaPods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -134,6 +142,10 @@
 				2A65600001DDFB4AADC76E48 /* DemoMenuController.swift */,
 				18D0EE766EEF168D10D89BEA /* DemoPageController.swift */,
 				CA8BAEB87F82E04F429133A1 /* StoryboardControllers.swift */,
+				335257E14DE1E6D32F4D1E4E /* DemoStackOperationsController.swift */,
+				9E3194635EEA130D96DD0686 /* DemoStackPageAController.swift */,
+				DD9E2FB4ABC1EE502D9FC421 /* DemoStackPageBController.swift */,
+				9A4F39B5988E07A5F4597855 /* DemoStackPageCController.swift */,
 			);
 			name = "Shared";
 			sourceTree = "<group>";
@@ -320,6 +332,10 @@
 				BFA5B9583594B9E52D4ED7F7 /* DemoMenuController.swift in Sources */,
 				1BDC6FBF27D35185C4D6065D /* DemoPageController.swift in Sources */,
 				1E853E6AB4378CEAE3596B4F /* StoryboardControllers.swift in Sources */,
+				63E9ADFCFC3AB98C96B3082D /* DemoStackOperationsController.swift in Sources */,
+				53685E2DBB65F3DA6F15FF35 /* DemoStackPageAController.swift in Sources */,
+				C3CF7F4181ED956CF4F384C2 /* DemoStackPageBController.swift in Sources */,
+				C74FFDDA1BE302D78334C262 /* DemoStackPageCController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

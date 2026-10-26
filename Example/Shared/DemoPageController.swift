@@ -22,7 +22,14 @@ final class DemoPageController: UIViewController, RTNavigationCustomizing {
     override var prefersStatusBarHidden: Bool { mode == .hiddenStatus }
     override var preferredStatusBarStyle: UIStatusBarStyle { .darkContent }
     func customBackItem(target: Any, action: Selector) -> UIBarButtonItem? {
-        mode == .customBack ? UIBarButtonItem(title: "自定义返回", style: .plain, target: target, action: action) : nil
+        guard mode == .customBack else { return nil }
+        let configuration = UIImage.SymbolConfiguration(pointSize: 28, weight: .bold)
+        let image = UIImage(systemName: "arrow.left.circle.fill", withConfiguration: configuration)?
+            .imageFlippedForRightToLeftLayoutDirection()
+        let item = UIBarButtonItem(image: image, style: .plain, target: target, action: action)
+        item.tintColor = .systemBlue
+        item.accessibilityLabel = "返回上一页"
+        return item
     }
     func nextSiblingController() -> UIViewController? {
         mode == .interactivePush || mode == .hiddenBar ? DemoPageController(mode: .interactivePush) : nil
@@ -113,9 +120,7 @@ final class DemoPageController: UIViewController, RTNavigationCustomizing {
     @objc private func closeDemo() { dismiss(animated: true) }
     @objc private func pushAndRemove() {
         guard let root = rt.navigationController else { return }
-        root.pushViewController(DemoPageController(mode: .normal), animated: true) { [weak self, weak root] finished in
-            if finished, let self { root?.removeViewController(self) }
-        }
+        root.pushViewController(DemoPageController(mode: .normal), animated: true, removeCurrentViewController: true)
     }
     @objc private func enableCallback() {
         rt.navigationController?.onBackCallback = { [weak self] in

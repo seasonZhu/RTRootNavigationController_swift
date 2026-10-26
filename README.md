@@ -159,6 +159,47 @@ if let root = rt.navigationController,
 
 `setViewControllers` 不能包含重复页面实例。`removeViewController` 默认无动画，目标不存在或将移除最后一个页面时不执行。`popToViewController` 的目标必须是栈内已有页面或其包装器；目标不存在时返回 `nil`。
 
+### 按类名管理导航栈
+
+这些操作直接由 `RTRootNavigationController` 提供，不依赖业务页面基类。页面可通过 `rt.navigationController` 获取根导航器，再调用对应方法。
+
+```swift
+if let root = rt.navigationController {
+    // 登录成功后进入首页，清理栈中已有的登录页。
+    root.pushViewController(
+        HomeController(),
+        animated: true,
+        removeViewControllerClassNameList: ["LoginController"],
+        removeCurrentViewController: false
+    )
+}
+
+// 流程跳转后移除跳转前的栈顶页面，避免返回该步骤。
+rt.navigationController?.pushViewController(
+    DetailController(),
+    animated: true,
+    removeCurrentViewController: true
+)
+
+// 单独移除全部同名页面；默认不使用动画。
+rt.navigationController?.removeViewControllerByClassNames(["LoginController"])
+
+// 从栈底查找第一个同名页面并返回；未找到则返回上一页。
+rt.navigationController?.popToViewController(className: "HomeController", animated: true) { finished in
+    print("返回完成：\(finished)")
+}
+
+// 获取实例的真实运行时类名，即使通过 UIViewController 类型引用访问也保持子类名称。
+let page: UIViewController = DetailController()
+print(page.rt.className) // DetailController
+```
+
+类名来自 `String(describing: type(of: page))`，不包含模块名，区分大小写；不同模块的同名类会被视为相同名称。名单重复不会重复删除，匹配时使用真实内容页面，自动跳过外层包装器。未提供类型静态 `.rt.className` 入口。
+
+组合 Push 的删除对象在调用前记录，成功完成后再一次性无动画清理；转场取消、待完成回调被后续带回调操作替换，或清理时目标已不是栈顶，均不清理。`removeCurrentViewController` 必须显式传入，指的是 **Push 前的真实栈顶实例**，不是根导航器，也不代表所有同类页面。新目标即使与旧页面同类或命中删除名单也会保留；普通两参数 Push 行为不变。
+
+单独按类名移除会删除全部匹配实例，包括匹配的栈顶或根页面；空名单、无匹配或将形成空栈时不操作。`animated` 控制本次栈更新动画。按类名 Pop 则选择从栈底开始的第一个匹配实例，找不到时的单页返回也遵守传入的动画参数。其完成回调沿用现有语义：完成或无操作返回 `true`，取消或被替换返回 `false`，且可能同步调用；回调成功不代表一定移除了页面。
+
 ## 页面导航栏与返回
 
 ### 各页面独立设置外观
@@ -358,10 +399,14 @@ window.rootViewController = root
 | `popToRootViewController(animated:)` | 返回根页面，结果为移除页面数组或 `nil` |
 | 上述 Push / 三种 Pop 的 `completion` 重载 | 根导航器提供；参数为转场完成状态 |
 | `removeViewController(_:animated:)` | 移除指定页面，动画默认 `false`，保留至少一页 |
+| `pushViewController(_:animated:removeViewControllerClassNameList:removeCurrentViewController:)` | Push 成功后清理记录的旧页面，必须显式指定是否移除原栈顶 |
+| `removeViewControllerByClassNames(_:animated:)` | 删除全部同名真实页面，禁止形成空栈，动画默认 `false` |
+| `popToViewController(className:animated:completion:)` | 返回栈底首个同名页面，未找到则返回上一页 |
 | `RTNavigationCustomizing` | 可选页面导航栏、返回按钮、动画和下一页定制 |
 | `RTViewControllerAnimatedTransitioning` | 自定义动画附带交互控制器 |
 | `RTNavigationCompatible` / `RTNavigation<Base>` | `.rt` 入口、`base` 及类型安全扩展 |
 | `rt.isInteractivePopDisabled` | 显式控制侧滑返回策略 |
+| `rt.className` | 实例的运行时类名，不包含模块名，区分大小写 |
 | `rt.navigationController` | 查找根导航器 |
 | `root.rt.viewControllers/topViewController/visibleViewController` | 读取解包后的页面 |
 | `RTContainerController` | 页面包装器；只读内容页及内部导航器引用 |
@@ -374,6 +419,9 @@ window.rootViewController = root
 - SPM：打开 `Example/SPM/Demo.xcodeproj`，选择 `DemoSPM`。
 - CocoaPods：运行 `pod install --project-directory=Example/CocoaPods`，打开 `Example/CocoaPods/Demo.xcworkspace`，选择 `DemoCocoaPods`。
 - 两套工程共用 `Example/Shared` 场景代码，演示工程已纳入版本控制。
+- 菜单“按类名管理导航栈”直接 Push 到蓝色 A，再通过按钮逐页进入橙色 B、紫色 C。各页面使用独立控制器类、大字母标题和不同背景色，并显示当前真实栈及预期变化；点击“回到菜单”结束演示。
+- 四个流程分别是：A → B → C，Push 到 C 后清理 B；A → B₁ → B₂ → C，按类名批量删除两个 B；A₁ → B → A₂ → C，按类名返回第一个 A₁；A → B → C，查找不存在的类名时回退到 B。重复字母表示同一控制器类的不同实例，可用顶部返回按钮验证被移除页面不会再次出现。
+- “Push 后移除当前页”使用新的组合 Push API；“自定义返回按钮”使用 28 点加粗圆形返回箭头，支持 RTL 方向翻转和无障碍返回标签。
 - `scripts/generate_examples.rb` 使用 Ruby `xcodeproj` 重新生成工程，仅调整工程结构时使用；随后重新执行 `pod install`。
 - 执行 `bash scripts/verify.sh`，运行交互完成判定测试、Podspec 检查、两种集成方式的 `build-for-testing` 及 Storyboard 资源检查。该脚本不启动模拟器，UIKit XCTest 仅编译，手势、外观和真实 UIKit 运行行为仍需运行验证。
 

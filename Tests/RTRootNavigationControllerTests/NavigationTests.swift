@@ -238,6 +238,165 @@ import UIKit
         root.navigationController(root, didShow: first, animated: true)
         XCTAssertEqual(results, [false])
     }
+    func testClassNameUsesRuntimeType() {
+        let page: UIViewController = CustomPage()
+        XCTAssertEqual(page.rt.className, "CustomPage")
+        XCTAssertEqual(page.rt.className, String(describing: type(of: page)))
+    }
+
+    func testRemoveByNamesMatchesAllInstancesAndPreservesNonemptyStack() {
+        let first = UIViewController(), second = CustomPage(), third = CustomPage()
+        let root = RTRootNavigationController(rootViewController: first)
+        root.setViewControllers([first, second, third], animated: false)
+        root.removeViewControllerByClassNames([])
+        root.removeViewControllerByClassNames(["Unknown", "custompage"])
+        XCTAssertEqual(root.rt.viewControllers.count, 3)
+        root.removeViewControllerByClassNames(["UIViewController", "CustomPage"])
+        XCTAssertEqual(root.rt.viewControllers.count, 3)
+        root.removeViewControllerByClassNames([second.rt.className, second.rt.className])
+        XCTAssertEqual(root.rt.viewControllers.map(ObjectIdentifier.init), [ObjectIdentifier(first)])
+    }
+
+    func testPushRemovesOnlyCurrentInstanceAndKeepsSameClassTarget() {
+        let first = CustomPage(), current = CustomPage(), next = CustomPage()
+        let root = RTRootNavigationController(rootViewController: first)
+        root.pushViewController(current, animated: false)
+        root.pushViewController(next, animated: false, removeCurrentViewController: true)
+        XCTAssertEqual(root.rt.viewControllers.map(ObjectIdentifier.init), [first, next].map(ObjectIdentifier.init))
+    }
+
+    func testPushCleanupCanReplaceRootAndRemoveNamedPages() {
+        let first = UIViewController(), current = CustomPage(), next = CustomPage()
+        let root = RTRootNavigationController(rootViewController: first)
+        root.pushViewController(current, animated: false)
+        root.pushViewController(next, animated: false,
+                                removeViewControllerClassNameList: [first.rt.className, next.rt.className],
+                                removeCurrentViewController: false)
+        XCTAssertEqual(root.rt.viewControllers.map(ObjectIdentifier.init), [ObjectIdentifier(next)])
+        let replacement = CustomPage()
+        root.pushViewController(replacement, animated: false, removeCurrentViewController: true)
+        XCTAssertTrue(root.rt.viewControllers.first === replacement)
+        XCTAssertEqual(root.rt.viewControllers.count, 1)
+    }
+
+    func testPushWithoutRemovalKeepsOldStack() {
+        let first = UIViewController(), second = UIViewController()
+        let root = RTRootNavigationController(rootViewController: first)
+        root.pushViewController(second, animated: false, removeCurrentViewController: false)
+        XCTAssertEqual(root.rt.viewControllers.map(ObjectIdentifier.init), [first, second].map(ObjectIdentifier.init))
+    }
+
+    func testClassNamePopFindsFirstMatchAndCompletesOnce() {
+        let first = CustomPage(), second = CustomPage(), last = UIViewController()
+        let root = RTRootNavigationController(rootViewController: first)
+        root.setViewControllers([first, second, last], animated: false)
+        var results: [Bool] = []
+        root.popToViewController(className: first.rt.className, animated: false) { results.append($0) }
+        XCTAssertTrue(root.rt.topViewController === first)
+        root.popToViewController(className: first.rt.className, animated: false) { results.append($0) }
+        root.popToViewController(className: "Unknown", animated: false) { results.append($0) }
+        if let shown = root.topViewController { root.navigationController(root, didShow: shown, animated: false) }
+        XCTAssertEqual(results, [true, true, true])
+    }
+
+    func testClassNamePopFallbackWithoutCompletion() {
+        let first = UIViewController(), second = CustomPage()
+        let root = RTRootNavigationController(rootViewController: first)
+        root.pushViewController(second, animated: false)
+        root.popToViewController(className: "Unknown", animated: false)
+        XCTAssertTrue(root.rt.topViewController === first)
+    }
+
+    func testNamedRemovalForwardsAnimationAndSkipsNoOpUpdates() {
+        let first = UIViewController(), second = CustomPage()
+        let root = DeferredNavigationController(rootViewController: first)
+        root.recordedStack = [first, second]
+        root.removeViewControllerByClassNames(["Unknown"], animated: true)
+        XCTAssertTrue(root.stackUpdateAnimations.isEmpty)
+        root.removeViewControllerByClassNames([second.rt.className], animated: true)
+        XCTAssertEqual(root.stackUpdateAnimations, [true])
+        XCTAssertTrue(root.rt.topViewController === first)
+    }
+
+    func testClassNamePopPassesAnimationToBothPaths() {
+        for animated in [false, true] {
+            let first = UIViewController(), second = CustomPage()
+            let root = DeferredNavigationController(rootViewController: first)
+            root.setViewControllers([first, second], animated: false)
+            root.popToViewController(className: "Unknown", animated: animated)
+            XCTAssertEqual(root.popAnimations.last, animated)
+            root.setViewControllers([first, second], animated: false)
+            root.popToViewController(className: first.rt.className, animated: animated) { _ in }
+            XCTAssertEqual(root.popToAnimations.last, animated)
+        }
+    }
+
+    func testDeferredPushCleansOnceOnlyAfterSuccess() {
+        let first = UIViewController(), current = CustomPage(), next = CustomPage()
+        let root = DeferredNavigationController(rootViewController: first)
+        root.recordedStack = [first, current]
+        root.beginDeferredTransition()
+        root.pushViewController(next, animated: true, removeCurrentViewController: true)
+        XCTAssertEqual(root.rt.viewControllers.count, 3)
+        XCTAssertTrue(root.stackUpdateAnimations.isEmpty)
+        root.navigationController(root, didShow: next, animated: true)
+        root.navigationController(root, didShow: next, animated: true)
+        XCTAssertEqual(root.rt.viewControllers.map(ObjectIdentifier.init), [first, next].map(ObjectIdentifier.init))
+        XCTAssertEqual(root.stackUpdateAnimations, [false])
+    }
+
+    func testCleanupOnlyRemovesInstancesRecordedBeforePush() {
+        let oldPage = CustomPage(), laterPage = CustomPage(), next = UIViewController()
+        let root = DeferredNavigationController(rootViewController: oldPage)
+        root.recordedStack = [oldPage]
+        root.beginDeferredTransition()
+        root.pushViewController(next, animated: true,
+                                removeViewControllerClassNameList: [oldPage.rt.className],
+                                removeCurrentViewController: false)
+        root.recordedStack = [oldPage, laterPage, next]
+        root.navigationController(root, didShow: next, animated: true)
+        XCTAssertEqual(root.rt.viewControllers.map(ObjectIdentifier.init), [laterPage, next].map(ObjectIdentifier.init))
+    }
+
+    func testCancelledCleanupDoesNotRemoveOldPage() {
+        let first = UIViewController(), next = CustomPage()
+        let root = DeferredNavigationController(rootViewController: first)
+        root.recordedStack = [first]
+        root.beginDeferredTransition()
+        root.pushViewController(next, animated: true, removeCurrentViewController: true)
+        root.recordedStack = [first]
+        root.navigationController(root, didShow: first, animated: true)
+        XCTAssertTrue(root.rt.topViewController === first)
+        XCTAssertTrue(root.stackUpdateAnimations.isEmpty)
+    }
+
+    func testReplacedCleanupDoesNotRemoveOldPage() {
+        let first = UIViewController(), next = CustomPage(), newest = UIViewController()
+        let root = DeferredNavigationController(rootViewController: first)
+        root.recordedStack = [first]
+        root.beginDeferredTransition()
+        root.pushViewController(next, animated: true, removeCurrentViewController: true)
+        var results: [Bool] = []
+        root.pushViewController(newest, animated: true) { results.append($0) }
+        root.navigationController(root, didShow: newest, animated: true)
+        XCTAssertEqual(root.rt.viewControllers.count, 3)
+        XCTAssertTrue(root.stackUpdateAnimations.isEmpty)
+        XCTAssertEqual(results, [true])
+    }
+
+    func testLaterNavigationPreventsStaleCleanup() {
+        let first = UIViewController(), next = CustomPage(), newest = UIViewController()
+        let root = DeferredNavigationController(rootViewController: first)
+        root.recordedStack = [first]
+        root.beginDeferredTransition()
+        root.pushViewController(next, animated: true, removeCurrentViewController: true)
+        // 无完成回调的后续 Push 不会替换回调槽，清理仍须检查真实栈顶。
+        root.pushViewController(newest, animated: true)
+        root.navigationController(root, didShow: next, animated: true)
+        XCTAssertEqual(root.rt.viewControllers.count, 3)
+        XCTAssertTrue(root.stackUpdateAnimations.isEmpty)
+    }
+
     func testContainersReleaseAfterRemoval() {
         let root = RTRootNavigationController(rootViewController: UIViewController())
         weak var released: UIViewController?
@@ -304,9 +463,39 @@ private final class InteractiveAnimator: NSObject, RTViewControllerAnimatedTrans
 
 /// 仅记录导航请求，由测试经公开代理事件控制结束顺序，不依赖 UIKit 动画调度。
 private final class DeferredNavigationController: RTRootNavigationController {
+    var recordedStack: [UIViewController]?
+    var stackUpdateAnimations: [Bool] = []
+    var popAnimations: [Bool] = []
+    var popToAnimations: [Bool] = []
+
+    override var viewControllers: [UIViewController] {
+        get { recordedStack ?? super.viewControllers }
+        set { super.viewControllers = newValue }
+    }
+
+    override func setViewControllers(_ viewControllers: [UIViewController], animated: Bool) {
+        if recordedStack != nil {
+            recordedStack = viewControllers
+            stackUpdateAnimations.append(animated)
+        } else {
+            super.setViewControllers(viewControllers, animated: animated)
+        }
+    }
+
+    override func popViewController(animated: Bool) -> UIViewController? {
+        popAnimations.append(animated)
+        return super.popViewController(animated: false)
+    }
+
+    override func popToViewController(_ viewController: UIViewController, animated: Bool) -> [UIViewController]? {
+        popToAnimations.append(animated)
+        return super.popToViewController(viewController, animated: false)
+    }
+
     var requests: [UIViewController] = []
     var didRequest: ((UIViewController) -> Void)?
     override func pushViewController(_ viewController: UIViewController, animated: Bool) {
+        recordedStack?.append(viewController)
         requests.append(viewController)
         didRequest?(viewController)
     }

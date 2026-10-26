@@ -1,42 +1,14 @@
-#
-# Be sure to run `pod lib lint RTRootNavigationController_Swift.podspec' to ensure this is a
-# valid spec before submitting.
-#
-# Any lines starting with a # are optional, but their use is encouraged
-# To learn more about a Podspec see http://guides.cocoapods.org/syntax/podspec.html
-#
-
 Pod::Spec.new do |s|
-  s.name             = 'RTRootNavigationController_Swift'
-  s.version          = '0.1.0'
-  s.summary          = 'Transparently make every view controller has its own navigation bar'
-
-# This description is used to generate tags and improve search results.
-#   * Think: What does it do? Why did you write it? What is the focus?
-#   * Try to keep it short, snappy and to the point.
-#   * Write the description between the DESC delimiters below.
-#   * Finally, don't worry about the indent, CocoaPods strips it!
-
-  s.description      = <<-DESC
-TODO: Add long description of the pod here.
-                       DESC
-
-  s.homepage         = 'https://github.com/CharmingZzz/RTRootNavigationController_Swift'
-  # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
-  s.license          = { :type => 'MIT', :file => 'LICENSE' }
-  s.author           = { 'm17600026862@163.com' => '17600026862@163.com' }
-  s.source           = { :git => 'https://github.com/CharmingZzz/RTRootNavigationController_Swift.git', :tag => s.version.to_s }
-  # s.social_media_url = 'https://twitter.com/<TWITTER_USERNAME>'
-
-  s.ios.deployment_target = '8.0'
-
-  s.source_files = 'RTRootNavigationController_Swift/Classes/**/*.{swift}'
-  
-  # s.resource_bundles = {
-  #   'RTRootNavigationController_Swift' => ['RTRootNavigationController_Swift/Assets/*.png']
-  # }
-
-  # s.public_header_files = 'Pod/Classes/**/*.h'
-  # s.frameworks = 'UIKit', 'MapKit'
-  # s.dependency 'AFNetworking', '~> 2.3'
+  s.name = 'RTRootNavigationController_Swift'
+  s.version = '1.0.0'
+  s.summary = '每个页面拥有独立导航栏的 Swift 导航容器'
+  s.description = '纯 Swift 实现独立导航栏、透明导航栈、自定义返回与交互式转场。'
+  s.homepage = 'https://github.com/seasonZhu/RTRootNavigationController_Swift'
+  s.license = { :type => 'MIT', :file => 'LICENSE' }
+  s.author = { 'seasonZhu' => '17600026862@163.com' }
+  s.source = { :git => 'https://github.com/seasonZhu/RTRootNavigationController_Swift.git', :tag => s.version.to_s }
+  s.ios.deployment_target = '13.0'
+  s.swift_versions = ['5.9']
+  s.source_files = 'Sources/RTRootNavigationController_Swift/**/*.swift'
+  s.frameworks = 'UIKit'
 end

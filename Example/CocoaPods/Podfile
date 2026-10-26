@@ -1,0 +1,11 @@
+platform :ios, '13.0'
+use_frameworks!
+install! 'cocoapods', :deterministic_uuids => true
+
+project 'Demo.xcodeproj'
+target 'DemoCocoaPods' do
+  pod 'RTRootNavigationController_Swift', :path => '../..'
+  target 'DemoCocoaPodsTests' do
+    inherit! :search_paths
+  end
+end

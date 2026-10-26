@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="23501" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="nav">
+    <device id="retina6_12" orientation="portrait" appearance="light"/>
+    <dependencies><plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="23500"/><capability name="Safe area layout guides" minToolsVersion="9.0"/></dependencies>
+    <scenes>
+        <scene sceneID="nav-scene"><objects>
+            <navigationController sceneMemberID="viewController" id="nav" customClass="RTRootNavigationController" customModule="RTRootNavigationController_Swift"><navigationBar key="navigationBar" contentMode="scaleToFill" id="bar"><rect key="frame" x="0.0" y="59" width="393" height="44"/></navigationBar><connections><segue destination="root" kind="relationship" relationship="rootViewController" id="relation"/></connections></navigationController>
+            <placeholder placeholderIdentifier="IBFirstResponder" id="nav-first" sceneMemberID="firstResponder"/>
+        </objects></scene>
+        <scene sceneID="root-scene"><objects>
+            <viewController sceneMemberID="viewController" id="root" customClass="StoryboardRootController"><view key="view" contentMode="scaleToFill" id="root-view"><rect key="frame" x="0" y="0" width="393" height="852"/><subviews><button opaque="NO" contentMode="scaleToFill" buttonType="system" translatesAutoresizingMaskIntoConstraints="NO" id="push-button"><state key="normal" title="打开下一页"/><connections><segue destination="detail" kind="show" id="show-detail"/></connections></button></subviews><viewLayoutGuide key="safeArea" id="root-safe"/><color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/><constraints><constraint firstItem="push-button" firstAttribute="centerX" secondItem="root-view" secondAttribute="centerX" id="root-x"/><constraint firstItem="push-button" firstAttribute="centerY" secondItem="root-view" secondAttribute="centerY" id="root-y"/></constraints></view><navigationItem key="navigationItem" id="root-item"/></viewController>
+            <placeholder placeholderIdentifier="IBFirstResponder" id="root-first" sceneMemberID="firstResponder"/>
+        </objects></scene>
+        <scene sceneID="detail-scene"><objects>
+            <viewController sceneMemberID="viewController" id="detail" customClass="StoryboardDetailController"><view key="view" contentMode="scaleToFill" id="detail-view"><rect key="frame" x="0" y="0" width="393" height="852"/><subviews><button opaque="NO" contentMode="scaleToFill" buttonType="system" translatesAutoresizingMaskIntoConstraints="NO" id="unwind-button"><state key="normal" title="Unwind 返回"/><connections><segue destination="exit" kind="unwind" unwindAction="returnToRoot:" id="unwind"/></connections></button></subviews><viewLayoutGuide key="safeArea" id="detail-safe"/><color key="backgroundColor" red="0.9" green="0.95" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/><constraints><constraint firstItem="unwind-button" firstAttribute="centerX" secondItem="detail-view" secondAttribute="centerX" id="detail-x"/><constraint firstItem="unwind-button" firstAttribute="centerY" secondItem="detail-view" secondAttribute="centerY" id="detail-y"/></constraints></view><navigationItem key="navigationItem" title="Unwind 目标测试" id="detail-item"/></viewController>
+            <placeholder placeholderIdentifier="IBFirstResponder" id="detail-first" sceneMemberID="firstResponder"/><exit id="exit" userLabel="Exit" sceneMemberID="exit"/>
+        </objects></scene>
+    </scenes>
+</document>

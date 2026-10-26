@@ -1,0 +1,16 @@
+PODS:
+  - RTRootNavigationController_Swift (1.0.0)
+
+DEPENDENCIES:
+  - RTRootNavigationController_Swift (from `../..`)
+
+EXTERNAL SOURCES:
+  RTRootNavigationController_Swift:
+    :path: "../.."
+
+SPEC CHECKSUMS:
+  RTRootNavigationController_Swift: fe48cfd181e6123e99e823b1683ffe1dac0c1a5d
+
+PODFILE CHECKSUM: 551f6cba44b686164f477e8b79ef8f613ea6a1a3
+
+COCOAPODS: 1.17.0

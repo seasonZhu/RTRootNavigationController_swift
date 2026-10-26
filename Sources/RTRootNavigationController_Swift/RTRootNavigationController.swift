@@ -514,9 +514,3 @@ open class RTRootNavigationController: UINavigationController, UINavigationContr
     /// 当前内容页面展示时优先使用的屏幕方向。
     open override var preferredInterfaceOrientationForPresentation: UIInterfaceOrientation { rt.topViewController?.preferredInterfaceOrientationForPresentation ?? .portrait }
 }
-
-private final class WeakBarItem {
-    weak var item: UIBarButtonItem?
-
-    init(_ item: UIBarButtonItem) { self.item = item }
-}
